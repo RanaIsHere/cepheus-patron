@@ -2,4 +2,4 @@
 
 ## About Cepheus Patron
 
-Created on 14/10/2021 with the intention of finishing it as a project, and further example for the exam soon. 
+Created on 14/10/2021 with the intention of finishing it as a project, and further example for the exam soon. Made with Laravel and integrated with Tabler.io
