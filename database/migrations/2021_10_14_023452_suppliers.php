@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Supplier extends Migration
+class Suppliers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class Supplier extends Migration
      */
     public function up()
     {
-        Schema::create('supplier', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
             $table->string('supplier_code', 50);
             $table->string('supplier_name', 30);
@@ -31,6 +31,6 @@ class Supplier extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supplier');
+        Schema::dropIfExists('suppliers');
     }
 }

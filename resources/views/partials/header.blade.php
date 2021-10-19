@@ -1,0 +1,70 @@
+<div class="page">
+    <div class="page-main">
+      <div class="header py-4">
+        <div class="container">
+          <div class="d-flex">
+            <a class="header-brand" href="/dashboard">
+              {{-- <img src="./demo/brand/tabler.svg" class="header-brand-img" alt="tabler logo"> --}}
+              <h3> Cepheus Patrons</h3>
+            </a>
+            <div class="d-flex order-lg-2 ml-auto">
+              <div class="dropdown">
+                <a class="nav-link pr-0 leading-none" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
+                  <span class="ml-2 d-none d-lg-block">
+                    <span class="text-default"> Team Origin </span>
+                    <small class="text-muted d-block mt-1">EDP</small>
+                  </span>
+                </a>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="/dashboard/settings">
+                    <i class="dropdown-icon fe fe-settings"></i> Settings
+                  </a>
+                  <a class="dropdown-item" href="/dashboard/register">
+                    <i class="dropdown-icon fe fe-settings"></i> Register User
+                  </a>
+                  <a class="dropdown-item" href="/">
+                    <i class="dropdown-icon fe fe-log-out"></i> Sign out
+                  </a>
+                </div>
+              </div>
+            </div>
+            <a href="#" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+              <span class="header-toggler-icon"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+        <div class="container">
+          <div class="row align-items-center">
+            {{-- <div class="col-lg-3 ml-auto">
+              <form class="input-icon my-3 my-lg-0">
+                <input type="search" class="form-control header-search" placeholder="Search&hellip;" tabindex="1">
+                <div class="input-icon-addon">
+                  <i class="fe fe-search"></i>
+                </div>
+              </form>
+            </div> --}}
+            <div class="col-lg order-lg-first">
+              <ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+                <li class="nav-item">
+                  <a href="/dashboard" class="nav-link"><i class="fe fe-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                  <a href="/dashboard/patrons" class="nav-link"><i class="fe fe-box"></i> Patrons </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/dashboard/products" class="nav-link"><i class="fe fe-box"></i> Products </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/dashboard/suppliers" class="nav-link"><i class="fe fe-box"></i> Suppliers </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="my-3 my-md-5">
+    </div>
+</div>
