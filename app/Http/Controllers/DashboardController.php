@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\Patrons;
 use App\Models\Products;
 use App\Models\Items;
@@ -40,6 +42,11 @@ class DashboardController extends Controller
     {
         $userData = User::all();
         return view('dashboard.register', ['page' => 'Register', 'userData' => $userData]);
+    }
+
+    public function defaultSettings()
+    {
+        return view('dashboard.settings', ['page' => 'Settings']);
     }
 
     public function addPatrons(Request $request)
@@ -163,5 +170,33 @@ class DashboardController extends Controller
         if ($user->save()) {
             return redirect('/dashboard/register')->with('success', 'Registration successful!');
         }
+    }
+
+    public function deleteUser(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id' => ['required'],
+            'allow' => ['required']
+        ]);
+
+        if ($validatedData['allow'] == 'ACCEPTED') {
+            DB::table('users')->where('id', $validatedData['id'])->delete();
+        } else {
+            DB::table('users')->where('id', $validatedData['id'])->update(['isDeletion' => 0]);
+        }
+
+        return redirect('/dashboard/register');
+    }
+
+    public function setTheme(Request $request)
+    {
+        $validatedData = $request->validate([
+            'option' => ['required']
+        ]);
+
+        // $response = new Response('Changing theme');
+        setcookie('theme', $validatedData['option'], time() + (86400 * 30), '/');
+
+        return redirect('/dashboard/settings');
     }
 }

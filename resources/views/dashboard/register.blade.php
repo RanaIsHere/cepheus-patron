@@ -65,7 +65,7 @@
                   <th>User Name</th>
                   <th>User Email</th>
                   <th>User Password</th>
-                  <th></th>
+                  <th class="text-center">Deletion Request</th>
               </tr>
               </thead>
 
@@ -76,7 +76,21 @@
                       <td>{{ $users->name }}</td>
                       <td>{{ $users->email }}</td>
                       <td>{{ $users->password }}</td>
-                      <td><button class="btn btn-danger"> Delete </button></td>
+                      @if ($users->isDeletion == 1)
+                      <form action="/dashboard/deleteUser" method="post">
+                          @csrf
+                          <input type="hidden" name="id" value="{{ $users->id }}">
+                          <input type="hidden" name="allow" value="ACCEPTED">
+                          <td class="text-center"><button type="submit" class="btn btn-danger"> Accept </button></td>
+                      </form>
+
+                      <form action="/dashboard/deleteUser" method="post">
+                        @csrf
+                        <input type="hidden" name="id" value="{{ $users->id }}">
+                        <input type="hidden" name="allow" value="DECLINED">
+                        <td class="text-center"><button type="submit" class="btn btn-danger"> Decline </button></td>
+                    </form>
+                      @endif
                   </tr>
               @endforeach
               </tbody>

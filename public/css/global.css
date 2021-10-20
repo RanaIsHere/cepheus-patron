@@ -1,5 +1,5 @@
 .bodies {
-    height: calc(997px + 100vh - 997px);
+    min-height: calc(997px + 100vh - 997px);
 }
 
 /* .dataTables_filter {
