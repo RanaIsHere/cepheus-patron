@@ -12,18 +12,20 @@
                 <a class="nav-link pr-0 leading-none" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="avatar" style="background-image: url(./demo/faces/female/25.jpg)"></span>
                   <span class="ml-2 d-none d-lg-block">
-                    <span class="text-default"> Team Origin </span>
-                    <small class="text-muted d-block mt-1">EDP</small>
+                    <span class="text-default"> {{ Auth::user()->name; }} </span>
+                    <small class="text-muted d-block mt-1">{{ Auth::user()->level; }}</small>
                   </span>
                 </a>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" href="/dashboard/settings">
                     <i class="dropdown-icon fe fe-settings"></i> Settings
                   </a>
+                  @if (Auth::user()->level == 'ADMIN' OR Auth::user()->level == 'OWNER')
                   <a class="dropdown-item" href="/dashboard/register">
                     <i class="dropdown-icon fe fe-settings"></i> Register User
                   </a>
-                  <a class="dropdown-item" href="/">
+                  @endif
+                  <a class="dropdown-item" href="/logout">
                     <i class="dropdown-icon fe fe-log-out"></i> Sign out
                   </a>
                 </div>
@@ -51,6 +53,7 @@
                 <li class="nav-item">
                   <a href="/dashboard" class="nav-link"><i class="fe fe-home"></i> Home</a>
                 </li>
+                @if (Auth::user()->level == 'EDP')
                 <li class="nav-item">
                   <a href="/dashboard/patrons" class="nav-link"><i class="fe fe-box"></i> Patrons </a>
                 </li>
@@ -60,6 +63,7 @@
                 <li class="nav-item">
                   <a href="/dashboard/suppliers" class="nav-link"><i class="fe fe-box"></i> Suppliers </a>
                 </li>
+                @endif
               </ul>
             </div>
           </div>

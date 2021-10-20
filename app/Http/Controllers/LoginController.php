@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -13,19 +14,28 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // return view('dashboard.index', ['page' => 'Dashboard']);
-
         $validatedLogin = $request->validate([
-            'email_address' => ['required'],
+            'email' => ['required'],
             'password' => ['required']
         ]);
 
-        if ($validatedLogin['email_address'] == 'team_origin@protonmail.com') {
-            if ($validatedLogin['password'] == 'admin') {
-                return redirect('/dashboard')->with('success', 'Login has been successful!');
-            }
+        if (Auth::attempt($validatedLogin))
+        {
+            $request->session()->regenerate();
+
+            return redirect()->intended('/dashboard');
         } else {
-            return redirect('/')->with('failure', 'Invalid username or password!');
+            return back()->with("failure", "Invalid username or password!");
         }
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/')->with('success', 'Signing out..');
     }
 }

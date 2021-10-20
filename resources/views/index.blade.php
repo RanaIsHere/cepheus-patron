@@ -16,7 +16,7 @@
                 <div class="card-title">Login to your account</div>
                 <div class="form-group">
                   <label class="form-label">Email address</label>
-                  <input type="email" name="email_address" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                     placeholder="Enter email">
                 </div>
                 <div class="form-group">

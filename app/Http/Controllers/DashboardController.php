@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\Patrons;
 use App\Models\Products;
@@ -148,14 +149,16 @@ class DashboardController extends Controller
         $validatedData = $request->validate([
             'name' => ['required'],
             'email' => ['required'],
-            'password' => ['required']
+            'password' => ['required'],
+            'level' => ['required']
         ]);
 
         $user = new User;
 
         $user->name = $validatedData['name'];
         $user->email = $validatedData['email'];
-        $user->password = $validatedData['password'];
+        $user->password = Hash::make($validatedData['password']);
+        $user->level = $validatedData['level'];
 
         if ($user->save()) {
             return redirect('/dashboard/register')->with('success', 'Registration successful!');

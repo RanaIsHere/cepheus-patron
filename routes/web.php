@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
+use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
@@ -17,16 +18,17 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 */
 
 Route::get('/', [LoginController::class, 'defaultIndex']);
+Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth.basic');
 Route::post('/', [LoginController::class, 'login']);
 
-Route::get('/dashboard', [DashboardController::class, 'defaultIndex']);
-Route::get('/dashboard/patrons', [DashboardController::class, 'defaultPatrons']);
-Route::get('/dashboard/products', [DashboardController::class, 'defaultProducts']);
-Route::get('/dashboard/suppliers', [DashboardController::class, 'defaultSuppliers']);
-Route::get('/dashboard/register', [DashboardController::class, 'defaultRegister']);
+Route::get('/dashboard', [DashboardController::class, 'defaultIndex'])->middleware('auth.basic');
+Route::get('/dashboard/patrons', [DashboardController::class, 'defaultPatrons'])->middleware('auth.basic');
+Route::get('/dashboard/products', [DashboardController::class, 'defaultProducts'])->middleware('auth.basic');
+Route::get('/dashboard/suppliers', [DashboardController::class, 'defaultSuppliers'])->middleware('auth.basic');
+Route::get('/dashboard/register', [DashboardController::class, 'defaultRegister'])->middleware('auth.basic');
 
-Route::post('/dashboard/patrons', [DashboardController::class, 'addPatrons']);
-Route::post('/dashboard/products', [DashboardController::class, 'addProducts']);
-Route::post('/dashboard/items', [DashboardController::class, 'addItems']);
-Route::post('/dashboard/suppliers', [DashboardController::class, 'addSupplier']);
-Route::post('/dashboard/register', [DashboardController::class, 'registerUser']);
+Route::post('/dashboard/patrons', [DashboardController::class, 'addPatrons'])->middleware('auth.basic');
+Route::post('/dashboard/products', [DashboardController::class, 'addProducts'])->middleware('auth.basic');
+Route::post('/dashboard/items', [DashboardController::class, 'addItems'])->middleware('auth.basic');
+Route::post('/dashboard/suppliers', [DashboardController::class, 'addSupplier'])->middleware('auth.basic');
+Route::post('/dashboard/register', [DashboardController::class, 'registerUser'])->middleware('auth.basic');

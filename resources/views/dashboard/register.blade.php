@@ -36,6 +36,18 @@
                   placeholder="Password">
               </div>
 
+              <div class="form-group">
+                <label class="form-label">
+                  Level of Clearance
+                </label>
+                {{-- <input type="password" class="form-control" name="level" id="levelClearance" placeholder="Password"> --}}
+                <select name="level" class="form-control" id="levelClearance">
+                    <option value="ADMIN">Admin</option>
+                    <option value="EDP">EDP</option>
+                    <option value="OPERATOR">OPERATOR</option>
+                </select>
+              </div>
+
               <div class="form-footer">
                 <button type="submit" class="btn btn-primary btn-block">Sign up</button>
               </div>

@@ -11,8 +11,12 @@
             </div>
             <div class="col-6 col-md-3">
               <ul class="list-unstyled mb-0">
-                <li><a href="#">Registration</a></li>
-                <li><a href="#">Settings</a></li>
+                @if (Auth::user()->level == 'ADMIN' OR Auth::user()->level == 'OWNER')
+                  <li><a href="/dashboard/register">Registration</a></li>
+                @else
+                  <li><a href="/logout">Sign out</a></li>
+                @endif
+                  <li><a href="/dashboard/settings">Settings</a></li>
               </ul>
             </div>
           </div>
