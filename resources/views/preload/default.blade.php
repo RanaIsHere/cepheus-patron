@@ -17,7 +17,7 @@
         <link rel="icon" href="./favicon.ico" type="image/x-icon" />
         <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
         <!-- Generated: 2018-04-16 09:29:05 +0200 -->
-        <title>Cepheus Patron</title>
+        <title>Cepheus Patron - {{ $page }}</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">

@@ -13,6 +13,16 @@ function setValueOfTransaction(tableObject)
     $('#totalItems').val(tableObject.rows().count());
 }
 
+function checkIfSus()
+{
+    if ($('#supplierId').val() == "")
+    {
+        $('#supplyAddBtn').prop('disabled', true)
+    } else {
+        $('#supplyAddBtn').prop('disabled', false)
+    }
+}
+
 $(function () {
     var totalPrice = 0
     var cartAll = []
@@ -148,13 +158,3 @@ $(function () {
         e.preventDefault();
     });
 });
-
-function checkIfSus()
-{
-    if ($('#supplierId').val() == "")
-    {
-        $('#supplyAddBtn').prop('disabled', true)
-    } else {
-        $('#supplyAddBtn').prop('disabled', false)
-    }
-}
