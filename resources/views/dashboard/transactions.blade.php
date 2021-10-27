@@ -34,7 +34,7 @@
                             <span class="input-group-prepend" id="basic-addon1">
                                 <span class="input-group-text">Rp.</span>
                             </span>
-                            <input type="text" class="form-control form-control-lg" name="total_amount" id="totalPrice" placeholder="Total from purchase" aria-label="Total from purchase" aria-describedby="basic-addon1" readonly>
+                            <input type="text" class="form-control form-control-lg" name="total_amount" id="totalPrice" placeholder="Total from purchase" aria-label="Total from purchase" value="0" aria-describedby="basic-addon1" readonly>
                         </div>
                     </div>
 
@@ -96,6 +96,7 @@
                             <th>#</th>
                             <th>Item Name</th>
                             <th>Item Price</th>
+                            <th>Quantity</th>
                             <th></th>
                         </tr>
                     </thead>

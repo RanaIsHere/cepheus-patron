@@ -221,18 +221,25 @@ class DashboardController extends Controller
         ]);    
 
         $tax = 2500;
+        $quantityOfItems = $validatedData['quantity_of_items'];
         // dd($validatedData['chosen_items']);
-        // $chosen_items[] = $validatedData['chosen_items'];
-        // dd($chosen_items);
+        $chosen_items[] = $validatedData['chosen_items'];
+
+        $totalAmount = 0;
+        for ($i = 1; $i < $quantityOfItems+1; $i++) {
+            $totalAmount += Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $chosen_items[0][$i]['quantity'];
+        }
+        
+        // var_dump($chosen_items);
+        // dd($chosen_items[0][3]['id']);
 
         $seller = new Seller;
         
         $seller->invoice_id = '0';
         $seller->invoice_date = now()->format('ymd');
-        $seller->total_amount = $validatedData['total_amount'];
+        $seller->total_amount = $totalAmount;
         $seller->patron_id = $validatedData['patron_id'];
         $seller->user_id = Auth::user()->id;
-        $quantityOfItems = $validatedData['quantity_of_items'];
         
         if ($seller->save())
         {
@@ -242,26 +249,28 @@ class DashboardController extends Controller
             if ($seller->update())
             {
 
-                foreach ($validatedData['chosen_items'] as $i => $items[])
+                // foreach ($chosen_items as $i => $items[])
+                for ($i = 1; $i < $quantityOfItems+1; $i++)
                 {
                     // var_dump($i);
+                    // dd($chosen_items[0][$i]['quantity']);
                     // dd(array_count_values($validatedData['chosen_items'])); Get all same values as duplicate keys
                     $seller_details = new SellerDetails;
                     // $item_quantity = $validatedData['quantity_of_items'];
-                    $item_quantity = 1;
+                    $item_quantity = $chosen_items[0][$i]['quantity'];
                     $seller_details->seller_id = $seller_id;
-                    $seller_details->item_id = $items[$i];
-                    $seller_details->item_price = Items::where('id', $items[$i])->first()->item_price;
+                    $seller_details->item_id = $chosen_items[0][$i]['id'];
+                    $seller_details->item_price = Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price;
                     $seller_details->item_quantity = $item_quantity;
-                    $seller_details->sub_total = Items::where('id', $items[$i])->first()->item_price * $item_quantity;
+                    $seller_details->sub_total = Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $item_quantity;
                     $seller_details->save();
                 }
 
                 $pay_buffer = new PayBuffer;
 
                 $pay_buffer->seller_id = $seller_id;
-                $pay_buffer->total = $validatedData['total_amount'] + $tax;
-                $pay_buffer->commited = $validatedData['total_amount'] - $tax;
+                $pay_buffer->total = $totalAmount + $tax;
+                $pay_buffer->commited = $totalAmount;
                 $pay_buffer->returning = $tax;
             
                 if ($pay_buffer->save()) {
