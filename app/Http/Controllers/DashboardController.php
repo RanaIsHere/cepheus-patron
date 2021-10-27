@@ -22,7 +22,8 @@ class DashboardController extends Controller
 {
     public function defaultIndex()
     {
-        return view('dashboard.index', ['page' => 'Dashboard']);
+        $userData = User::all();
+        return view('dashboard.index', ['page' => 'Dashboard', 'userData' => $userData]);
     }
 
     public function defaultPatrons()

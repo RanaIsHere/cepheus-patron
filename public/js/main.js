@@ -1,18 +1,3 @@
-// This sum() function is created by Allan Jardine as a plugin to sum a column.
-
-jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
-	return this.flatten().reduce( function ( a, b ) {
-		if ( typeof a === 'string' ) {
-			a = a.replace(/[^\d.-]/g, '') * 1;
-		}
-		if ( typeof b === 'string' ) {
-			b = b.replace(/[^\d.-]/g, '') * 1;
-		}
-
-		return a + b;
-	}, 0 );
-} );
-
 function checkIfNotEmpty(tableObject)
 {
     if (tableObject.rows().count() > 0) {
@@ -26,6 +11,16 @@ function setValueOfTransaction(tableObject)
 {
     $('#totalPrice').val( tableObject.column(2).data().sum() );
     $('#totalItems').val(tableObject.rows().count());
+}
+
+function checkIfSus()
+{
+    if ($('#supplierId').val() == "")
+    {
+        $('#supplyAddBtn').prop('disabled', true)
+    } else {
+        $('#supplyAddBtn').prop('disabled', false)
+    }
 }
 
 $(function () {
@@ -163,13 +158,3 @@ $(function () {
         e.preventDefault();
     });
 });
-
-function checkIfSus()
-{
-    if ($('#supplierId').val() == "")
-    {
-        $('#supplyAddBtn').prop('disabled', true)
-    } else {
-        $('#supplyAddBtn').prop('disabled', false)
-    }
-}
