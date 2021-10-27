@@ -5,14 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Items extends Model
+class PaymentDetails extends Model
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $table = 'payment_details';
 
-    public function products()
-    {
-        return $this->belongsTo(Products::class);
-    }
+    protected $guarded = ['id'];
 }

@@ -64,6 +64,15 @@
                   <a href="/dashboard/suppliers" class="nav-link"><i class="fe fe-box"></i> Suppliers </a>
                 </li>
                 @endif
+                
+                @if (Auth::user()->level == 'OPERATOR')
+                <li class="nav-item">
+                  <a href="/dashboard/transactions" class="nav-link"><i class="fe fe-home"></i> Transactions </a>
+                </li>
+                <li class="nav-item">
+                  <a href="/dashboard/supply" class="nav-link"><i class="fe fe-home"></i> Supply </a>
+                </li>
+                @endif
               </ul>
             </div>
           </div>

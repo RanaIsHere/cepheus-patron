@@ -79,7 +79,7 @@
                             <td>{{ $supLier->supplier_code }}</td>
                             <td>{{ $supLier->supplier_name }}</td>
                             <td>{{ $supLier->supplier_address }}</td>
-                            <td>{{ $supLier->supplier_phone }}</td>
+                            <td>{{ $supLier->supplier_city }}</td>
                             <td>{{ $supLier->supplier_phone }}</td>
                         </tr>
                     @endforeach

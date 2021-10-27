@@ -28,6 +28,8 @@ Route::get('/dashboard/products', [DashboardController::class, 'defaultProducts'
 Route::get('/dashboard/suppliers', [DashboardController::class, 'defaultSuppliers'])->middleware('auth.basic');
 Route::get('/dashboard/register', [DashboardController::class, 'defaultRegister'])->middleware('auth.basic');
 Route::get('/dashboard/settings', [DashboardController::class, 'defaultSettings'])->middleware('auth.basic');
+Route::get('/dashboard/transactions', [DashboardController::class, 'defaultTransactions'])->middleware('auth.basic');
+Route::get('/dashboard/supply', [DashboardController::class, 'defaultSupply'])->middleware('auth.basic');
 
 Route::post('/dashboard/patrons', [DashboardController::class, 'addPatrons'])->middleware('auth.basic');
 Route::post('/dashboard/products', [DashboardController::class, 'addProducts'])->middleware('auth.basic');
@@ -36,3 +38,5 @@ Route::post('/dashboard/suppliers', [DashboardController::class, 'addSupplier'])
 Route::post('/dashboard/register', [DashboardController::class, 'registerUser'])->middleware('auth.basic');
 Route::post('/dashboard/deleteUser', [DashboardController::class, 'deleteUser'])->middleware('auth.basic');
 Route::post('/dashboard/changeTheme', [DashboardController::class, 'setTheme'])->middleware('auth.basic');
+Route::post('/dashboard/transactions/sell', [DashboardController::class, 'sellItems'])->middleware('auth.basic');
+Route::post('/dashboard/supply/buy', [DashboardController::class, 'buySupply'])->middleware('auth.basic');

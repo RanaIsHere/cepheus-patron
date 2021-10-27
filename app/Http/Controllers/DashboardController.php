@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,6 +12,11 @@ use App\Models\Products;
 use App\Models\Items;
 use App\Models\Suppliers;
 use App\Models\User;
+use App\Models\Seller;
+use App\Models\SellerDetails;
+use App\Models\PayBuffer;
+use App\Models\Purchases;
+use App\Models\PaymentDetails;
 
 class DashboardController extends Controller
 {
@@ -47,6 +53,21 @@ class DashboardController extends Controller
     public function defaultSettings()
     {
         return view('dashboard.settings', ['page' => 'Settings']);
+    }
+
+    public function defaultTransactions()
+    {
+        $itemData = Items::all();
+        $productData = Products::all();
+        $patronData  = Patrons::all();
+        return view('dashboard.transactions', ['page' => 'Transactions', 'itemData' => $itemData, 'productData' => $productData, 'patronData' => $patronData]);
+    }
+
+    public function defaultSupply()
+    {
+        $supplierData = Suppliers::all();
+        $itemData = Items::all();
+        return view('dashboard.supply', ['page' => 'Supply', 'itemData' => $itemData, 'supplierData' => $supplierData]);
     }
 
     public function addPatrons(Request $request)
@@ -186,6 +207,108 @@ class DashboardController extends Controller
         }
 
         return redirect('/dashboard/register');
+    }
+
+    public function sellItems(Request $request)
+    {
+
+        $validatedData = $request->validate([
+            'chosen_items' => ['required'],
+            'patron_id' => ['required'],
+            'total_amount' => ['required'],
+            'quantity_of_items' => ['required'],
+        ]);    
+
+        $tax = 2500;
+        // dd($validatedData['chosen_items']);
+        // $chosen_items[] = $validatedData['chosen_items'];
+        // dd($chosen_items);
+
+        $seller = new Seller;
+        
+        $seller->invoice_id = '0';
+        $seller->invoice_date = now()->format('ymd');
+        $seller->total_amount = $validatedData['total_amount'];
+        $seller->patron_id = $validatedData['patron_id'];
+        $seller->user_id = Auth::user()->id;
+        $quantityOfItems = $validatedData['quantity_of_items'];
+        
+        if ($seller->save())
+        {
+            $seller_id = $seller->id;
+            $seller->invoice_id = 'IVY' . $seller_id . $seller->invoice_date;
+
+            if ($seller->update())
+            {
+
+                foreach ($validatedData['chosen_items'] as $i => $items[])
+                {
+                    // var_dump($i);
+                    // dd(array_count_values($validatedData['chosen_items'])); Get all same values as duplicate keys
+                    $seller_details = new SellerDetails;
+                    // $item_quantity = $validatedData['quantity_of_items'];
+                    $item_quantity = 1;
+                    $seller_details->seller_id = $seller_id;
+                    $seller_details->item_id = $items[$i];
+                    $seller_details->item_price = Items::where('id', $items[$i])->first()->item_price;
+                    $seller_details->item_quantity = $item_quantity;
+                    $seller_details->sub_total = Items::where('id', $items[$i])->first()->item_price * $item_quantity;
+                    $seller_details->save();
+                }
+
+                $pay_buffer = new PayBuffer;
+
+                $pay_buffer->seller_id = $seller_id;
+                $pay_buffer->total = $validatedData['total_amount'] + $tax;
+                $pay_buffer->commited = $validatedData['total_amount'] - $tax;
+                $pay_buffer->returning = $tax;
+            
+                if ($pay_buffer->save()) {
+                    return redirect('/dashboard/transactions')->with('success', 'Transactions successful!');
+                }
+            }
+        }
+    }
+
+    public function buySupply(Request $request) 
+    {
+        $validatedData = $request->validate([
+            'supplier_id' => ['required'],
+            'stock_quantity' => ['required'],
+            'total_amount' => ['required'],
+            'item_id' => ['required']
+        ]);
+
+        // dd($validatedData);
+
+        $purchases = new Purchases;
+
+        $purchases->collection_code = '0';
+        $purchases->collection_date = now();
+        $purchases->total = $validatedData['total_amount'];
+        $purchases->supplier_id = $validatedData['supplier_id'];
+        $purchases->user_id = Auth::user()->id;
+
+        if ($purchases->save())
+        {  
+            $id = $purchases->id;
+
+            $purchases->collection_code = 'COC' . $id;
+
+            if ($purchases->update()) {
+                $paymentDetails = new PaymentDetails;
+
+                $paymentDetails->purchase_id = $id;
+                $paymentDetails->item_id = $validatedData['item_id'];
+                $paymentDetails->item_price = Items::where('id', $validatedData['item_id'])->first()->item_price;
+                $paymentDetails->quantity = $validatedData['stock_quantity'];
+                $paymentDetails->sub_total = Items::where('id', $validatedData['item_id'])->first()->item_price * $validatedData['stock_quantity'];
+
+                if ($paymentDetails->save()) {
+                    return redirect('/dashboard/supply')->with('success', 'Supply sent!');
+                }
+            }
+        }
     }
 
     public function setTheme(Request $request)

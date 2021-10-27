@@ -39,6 +39,7 @@
         <script src="../plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
         <script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        {{-- <script src="https://cdn.datatables.net/plug-ins/1.11.3/api/sum().js"></script> --}}
         <script src="../js/main.js"></script>
     </body>
 </html>
