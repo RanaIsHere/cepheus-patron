@@ -71,6 +71,15 @@ class DashboardController extends Controller
         return view('dashboard.supply', ['page' => 'Supply', 'itemData' => $itemData, 'supplierData' => $supplierData]);
     }
 
+    public function defaultInvoice($id)
+    {
+        $seller = Seller::where('invoice_id', $id)->first();
+        $sellerDetails = SellerDetails::where('seller_id', $seller->id)->first();
+        $patronData = Patrons::where('id', $seller->patron_id)->first();
+        $itemData = Items::where('id', $sellerDetails->item_id)->get();
+        return view('dashboard.invoice', ['page' => 'Invoices', 'itemData' => $itemData, 'sellerDetails' => $sellerDetails, 'seller' => $seller, 'patronData' => $patronData]);
+    }
+
     public function addPatrons(Request $request)
     {
         $validatedData = $request->validate([
@@ -274,7 +283,8 @@ class DashboardController extends Controller
                 $pay_buffer->returning = $tax;
             
                 if ($pay_buffer->save()) {
-                    return redirect('/dashboard/transactions')->with('success', 'Transactions successful!');
+                    // return redirect('/dashboard/transactions')->with('success', 'Transactions successful!');
+                    return redirect('/dashboard/invoices/' . $seller->invoice_id)->with('success', 'Transaction successful!');
                 }
             }
         }

@@ -40,3 +40,5 @@ Route::post('/dashboard/deleteUser', [DashboardController::class, 'deleteUser'])
 Route::post('/dashboard/changeTheme', [DashboardController::class, 'setTheme'])->middleware('auth.basic');
 Route::post('/dashboard/transactions/sell', [DashboardController::class, 'sellItems'])->middleware('auth.basic');
 Route::post('/dashboard/supply/buy', [DashboardController::class, 'buySupply'])->middleware('auth.basic');
+
+Route::get('/dashboard/invoices/{id}', [DashboardController::class, 'defaultInvoice'])->middleware('auth.basic');
