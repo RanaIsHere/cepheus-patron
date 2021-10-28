@@ -74,9 +74,13 @@ class DashboardController extends Controller
     public function defaultInvoice($id)
     {
         $seller = Seller::where('invoice_id', $id)->first();
-        $sellerDetails = SellerDetails::where('seller_id', $seller->id)->first();
+        // $seller = Seller::find($id);
+        $sellerDetails = SellerDetails::where('seller_id', $seller->id)->get();
+        // $sellerDetails = SellerDetails::find($id);
         $patronData = Patrons::where('id', $seller->patron_id)->first();
-        $itemData = Items::where('id', $sellerDetails->item_id)->get();
+        $itemData = Items::where('id', $seller->sellerDetails->item_id)->get();
+        // $itemData = Items::find($id);
+
         return view('dashboard.invoice', ['page' => 'Invoices', 'itemData' => $itemData, 'sellerDetails' => $sellerDetails, 'seller' => $seller, 'patronData' => $patronData]);
     }
 
@@ -325,6 +329,12 @@ class DashboardController extends Controller
                 $paymentDetails->sub_total = Items::where('id', $validatedData['item_id'])->first()->item_price * $validatedData['stock_quantity'];
 
                 if ($paymentDetails->save()) {
+                    $items = Items::where('id', $validatedData['item_id'])->first();
+
+                    $items->item_stock += (int)$validatedData['stock_quantity'];
+
+                    $items->update();
+
                     return redirect('/dashboard/supply')->with('success', 'Supply sent!');
                 }
             }

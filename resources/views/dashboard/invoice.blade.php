@@ -42,6 +42,7 @@
                   <th class="text-right" style="width: 10%">Amount</th>
                 </tr>
                 @foreach ($itemData as $item)
+                    @foreach ($sellerDetails as $sad)
                     <tr>
                         <td class="text-center">{{ $item->id }}</td>
                         <td>
@@ -49,11 +50,12 @@
                             <div class="text-muted">{{ $item->item_code }}</div>
                         </td>
                         <td class="text-center">
-                            {{-- {{ $item->item_quantity }} --}}1
+                            {{ $sad->item_quantity }}
                         </td>
                         <td class="text-right">{{ $item->item_price }}</td>
                         <td class="text-right">{{ $item->item_price }}</td>
                     </tr>
+                    @endforeach
                 @endforeach
               </table>
             </div>
