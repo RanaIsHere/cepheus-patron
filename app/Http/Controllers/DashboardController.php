@@ -238,11 +238,18 @@ class DashboardController extends Controller
         // dd($validatedData['chosen_items']);
         $chosen_items[] = $validatedData['chosen_items'];
 
+        // dd(array_key_first($chosen_items[0]));
+
         $totalAmount = 0;
-        for ($i = 1; $i < $quantityOfItems+1; $i++) {
-            $totalAmount += Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $chosen_items[0][$i]['quantity'];
+        if (count($chosen_items) > 1) {
+            for ($i = array_key_first($chosen_items[0]); $i < $quantityOfItems+1; $i++) {
+                $totalAmount += Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $chosen_items[0][$i]['quantity'];
+            }
+        } else {
+            $totalAmount += Items::where('id', $chosen_items[0][array_key_first($chosen_items[0])]['id'])->first()->item_price * $chosen_items[0][array_key_first($chosen_items[0])]['quantity'];
         }
-        
+        // dd($totalAmount);
+        // Singular item selling error
         // var_dump($chosen_items);
         // dd($chosen_items[0][3]['id']);
 
@@ -263,7 +270,7 @@ class DashboardController extends Controller
             {
 
                 // foreach ($chosen_items as $i => $items[])
-                for ($i = 1; $i < $quantityOfItems+1; $i++)
+                for ($i = array_key_first($chosen_items[0]); $i < $quantityOfItems+1; $i++)
                 {
                     // var_dump($i);
                     // dd($chosen_items[0][$i]['quantity']);
