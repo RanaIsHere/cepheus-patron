@@ -41,5 +41,8 @@
         <script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
         <script src="../../js/sum.js"></script>
         <script src="../../js/main.js"></script>
+        @if ($page == 'Invoices')
+            <script src="../../js/invoice.js"></script>
+        @endif
     </body>
 </html>
