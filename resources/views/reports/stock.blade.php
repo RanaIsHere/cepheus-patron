@@ -8,9 +8,9 @@
           <div class="card-header">
             <h3 class="card-title">#<a href="/dashboard/invoices/{{ $purchasesData->collection_code }}">{{ $purchasesData->collection_code }}</a></h3>
             
-            <div class="card-options">
-              <button type="button" class="btn btn-primary" onclick="javascript:window.print();"><i class="si si-printer"></i> Print Invoice</button>
-            </div>
+            {{-- <div class="card-options">
+              <button type="button" class="btn btn-primary" onclick="javascript:window.print();"><i class="si si-printer"></i> Print </button>
+            </div> --}}
           </div>
           <div class="card-body">
             <h5>Collection Details: #{{ $purchasesData->collection_code }} created on {{ $purchasesData->collection_date }}</h5>
