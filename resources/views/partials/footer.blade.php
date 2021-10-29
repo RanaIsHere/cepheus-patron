@@ -11,7 +11,7 @@
             </div>
             <div class="col-6 col-md-3">
               <ul class="list-unstyled mb-0">
-                @if (Auth::user()->level == 'ADMIN' OR Auth::user()->level == 'OWNER')
+                @if (Auth::user()->level == 'ADMIN')
                   <li><a href="/dashboard/register">Registration</a></li>
                 @else
                   <li><a href="/logout">Sign out</a></li>
@@ -33,7 +33,7 @@
         <div class="col-auto ml-lg-auto">
           <div class="row align-items-center">
             <div class="col-auto">
-              <a href="#documentation" class="btn btn-outline-primary btn-sm">Documentation</a>
+              <a href="https://github.com/RanaIsHere/cepheus-patron/wiki/Setup" class="btn btn-outline-primary btn-sm">Documentation</a>
             </div>
           </div>
         </div>
