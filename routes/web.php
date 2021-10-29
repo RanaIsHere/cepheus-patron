@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReportController;
+use Facade\FlareClient\Report;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -17,11 +19,13 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
+// Login
 Route::get('/', [LoginController::class, 'defaultIndex']);
 Route::get('/logout', [LoginController::class, 'logout'])->middleware('auth.basic');
 Route::post('/deleteUser', [LoginController::class, 'deleteUser'])->middleware('auth.basic');
 Route::post('/', [LoginController::class, 'login']);
 
+// Dashboard
 Route::get('/dashboard', [DashboardController::class, 'defaultIndex'])->middleware('auth.basic');
 Route::get('/dashboard/patrons', [DashboardController::class, 'defaultPatrons'])->middleware('auth.basic');
 Route::get('/dashboard/products', [DashboardController::class, 'defaultProducts'])->middleware('auth.basic');
@@ -41,4 +45,7 @@ Route::post('/dashboard/changeTheme', [DashboardController::class, 'setTheme'])-
 Route::post('/dashboard/transactions/sell', [DashboardController::class, 'sellItems'])->middleware('auth.basic');
 Route::post('/dashboard/supply/buy', [DashboardController::class, 'buySupply'])->middleware('auth.basic');
 
-Route::get('/dashboard/invoices/{id}', [DashboardController::class, 'defaultInvoice'])->middleware('auth.basic');
+
+// Reports
+Route::get('/dashboard/reports/invoices', [ReportController::class, 'defaultInvoiceList'])->middleware('auth.basic');
+Route::get('/dashboard/reports/invoices/{id}', [ReportController::class, 'defaultInvoice'])->middleware('auth.basic');
