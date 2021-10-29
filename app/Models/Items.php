@@ -13,11 +13,16 @@ class Items extends Model
 
     public function products()
     {
-        return $this->belongsTo(Products::class);
+        return $this->belongsTo(Products::class, 'product_id');
     }
 
     public function seller_det()
     {
         return $this->hasMany(SellerDetails::class, 'item_id');
+    }
+
+    public function paymentDetails()
+    {
+        return $this->hasMany(PaymentDetails::class, 'item_id');
     }
 }
