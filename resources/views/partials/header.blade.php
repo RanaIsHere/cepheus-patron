@@ -72,6 +72,9 @@
                 <li class="nav-item">
                   <a href="/dashboard/supply" class="nav-link"><i class="fe fe-home"></i> Supply </a>
                 </li>
+                <li class="nav-item">
+                  <a href="/dashboard/reports/invoices" class="nav-link"><i class="fe fe-home"></i> Invoices </a>
+                </li>
                 @endif
               </ul>
             </div>

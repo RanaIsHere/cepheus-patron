@@ -12,4 +12,14 @@ class Seller extends Model
     protected $table = "seller";
 
     protected $guarded = ['id'];
+
+    public function sellerDetails()
+    {
+        return $this->hasOne(SellerDetails::class, 'seller_id');
+    }
+
+    public function patrons()
+    {
+        return $this->belongsTo(Patrons::class);
+    }
 }

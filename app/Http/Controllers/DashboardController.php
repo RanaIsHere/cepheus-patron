@@ -225,13 +225,22 @@ class DashboardController extends Controller
         // dd($validatedData['chosen_items']);
         $chosen_items[] = $validatedData['chosen_items'];
 
+        // dd(array_key_first($chosen_items[0]));
+        // Singular item selling error fix
         $totalAmount = 0;
-        for ($i = 1; $i < $quantityOfItems+1; $i++) {
-            $totalAmount += Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $chosen_items[0][$i]['quantity'];
+        if (count($chosen_items[0]) > 1) {
+            for ($i = array_key_first($chosen_items[0]); $i < $quantityOfItems+1; $i++) {
+                if (in_array($i, array_keys($chosen_items[0]))) {
+                    $totalAmount += Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $chosen_items[0][$i]['quantity'];
+                }
+            }
+        } else {
+            $totalAmount += Items::where('id', $chosen_items[0][array_key_first($chosen_items[0])]['id'])->first()->item_price * $chosen_items[0][array_key_first($chosen_items[0])]['quantity'];
         }
-        
+
         // var_dump($chosen_items);
         // dd($chosen_items[0][3]['id']);
+        // dd(count($chosen_items[0]));
 
         $seller = new Seller;
         
@@ -248,23 +257,45 @@ class DashboardController extends Controller
 
             if ($seller->update())
             {
-
                 // foreach ($chosen_items as $i => $items[])
-                for ($i = 1; $i < $quantityOfItems+1; $i++)
-                {
-                    // var_dump($i);
-                    // dd($chosen_items[0][$i]['quantity']);
-                    // dd(array_count_values($validatedData['chosen_items'])); Get all same values as duplicate keys
+                if (count($chosen_items[0]) > 1) {
+                    // for ($i = array_key_first($chosen_items[0]); $i < $quantityOfItems+2; $i++)
+                    for ($i = 0; $i < $quantityOfItems+10; $i++)
+                    {
+                        // var_dump($i);
+                        if (in_array($i, array_keys($chosen_items[0]))) {
+                            // var_dump($i);
+                            // dd($i);
+                            // dd($chosen_items[0][$i]['quantity']);
+                            // dd(array_count_values($validatedData['chosen_items'])); Get all same values as duplicate keys
+                            $seller_details = new SellerDetails;
+                            // $item_quantity = $validatedData['quantity_of_items'];
+                            $item_quantity = (int)$chosen_items[0][$i]['quantity'];
+                            $seller_details->seller_id = $seller_id;
+                            $seller_details->item_id = (int)$chosen_items[0][$i]['id'];
+                            // var_dump($chosen_items[0][$i]['quantity']);
+                            $seller_details->item_price = Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price;
+                            $seller_details->item_quantity = (int)$item_quantity;
+                            $seller_details->sub_total = Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $item_quantity;
+                            $seller_details->save();
+                        }
+                        // } else {
+                        //     var_dump(in_array($i, $chosen_items[0][array_key_first($chosen_items[0])]));
+                        // }
+                    }
+                } else {
                     $seller_details = new SellerDetails;
-                    // $item_quantity = $validatedData['quantity_of_items'];
-                    $item_quantity = $chosen_items[0][$i]['quantity'];
+
+                    $item_quantity = $chosen_items[0][array_key_first($chosen_items[0])]['quantity'];
                     $seller_details->seller_id = $seller_id;
-                    $seller_details->item_id = $chosen_items[0][$i]['id'];
-                    $seller_details->item_price = Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price;
-                    $seller_details->item_quantity = $item_quantity;
-                    $seller_details->sub_total = Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $item_quantity;
+                    $seller_details->item_id = $chosen_items[0][array_key_first($chosen_items[0])]['id'];
+                    $seller_details->item_price = Items::where('id', $chosen_items[0][array_key_first($chosen_items[0])]['id'])->first()->item_price;
+                    $seller_details->item_quantity = (int)$item_quantity;
+                    $seller_details->sub_total = Items::where('id', $chosen_items[0][array_key_first($chosen_items[0])]['id'])->first()->item_price * $item_quantity;
                     $seller_details->save();
                 }
+
+                // dd($chosen_items[0]);
 
                 $pay_buffer = new PayBuffer;
 
@@ -274,7 +305,8 @@ class DashboardController extends Controller
                 $pay_buffer->returning = $tax;
             
                 if ($pay_buffer->save()) {
-                    return redirect('/dashboard/transactions')->with('success', 'Transactions successful!');
+                    // return redirect('/dashboard/transactions')->with('success', 'Transactions successful!');
+                    return redirect('/dashboard/reports/invoices/' . $seller->invoice_id)->with('success', 'Transaction successful!');
                 }
             }
         }
@@ -315,6 +347,12 @@ class DashboardController extends Controller
                 $paymentDetails->sub_total = Items::where('id', $validatedData['item_id'])->first()->item_price * $validatedData['stock_quantity'];
 
                 if ($paymentDetails->save()) {
+                    $items = Items::where('id', $validatedData['item_id'])->first();
+
+                    $items->item_stock += (int)$validatedData['stock_quantity'];
+
+                    $items->update();
+
                     return redirect('/dashboard/supply')->with('success', 'Supply sent!');
                 }
             }

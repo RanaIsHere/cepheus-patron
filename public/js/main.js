@@ -1,6 +1,3 @@
-var totalPriceButID = $('#totalPrice').val()
-var cartPriceAll = []
-
 function checkIfNotEmpty(tableObject)
 {
     if (tableObject.rows().count() > 0) {
@@ -12,35 +9,6 @@ function checkIfNotEmpty(tableObject)
 
 function setValueOfTransaction(tableObject, id)
 {
-    $('#totalPrice').val( tableObject.column(2).data().sum() ); //Original way, impossible for quantity calculation.
-    // I GIVE UP
-    
-    // var TOTAL_PRIEC = tableObject.rows().data()[id-1][2] * $("#item_quantity_"+id+"").val()
-    // totalPriceButID = parseInt(totalPriceButID) + parseInt(TOTAL_PRIEC)
-    // 
-    // $('#totalPrice').val(totalPriceButID);
-    // $('#totalPrice').val(tableObject.rows().data()[id-1] * $("#item_quantity_"+id+"").val())
-    
-    // for (let i = 0; i < tableObject.rows().count(); i++) {
-    //     // $('#totalPrice').val(tableObject.rows().data()[i][2] * $("#item_quantity_"+id+"").val())
-    //     $('#totalPrice').val(tableObject.rows().data()[i][2] * $("#item_quantity_"+id+"").val())
-    // }
-
-
-    // let rowTbData = tableObject.rows().data()[id-1][2] * $("#item_quantity_"+id+"").val()
-
-    // if (!cartPriceAll.includes(rowTbData)) {
-    //     cartPriceAll.push(rowTbData)
-    // } else {
-    //     cartPriceAll.splice(rowTbData, 1)
-    //     cartPriceAll.push(rowTbData)
-    // }
-
-
-    // $('#totalPrice').val(cartPriceAll.reduce((x, y) => {
-    //     return parseInt(x) + parseInt(y);
-    // }))
-    
     $('#totalItems').val(tableObject.rows().count());
 }
 
@@ -129,6 +97,23 @@ $(function () {
         checkIfNotEmpty(pickedItemsTable)
     });
 
+    // Calculate according to subtotal, and put it in a total input
+    pickedItemsTable.on('draw', function () {
+        total = pickedItemsTable.column(2).data().sum()
+        _total = 0
+        pickedItemsTable.rows().every( function ( rowIdx, tableLoop, rowLoop) {
+            var data = this.data();
+            var cell = this.cell({row: rowIdx, column: 3}).node()
+            var subTotal = data[2] * $('input', cell).val()
+
+            // console.log(subTotal)
+            _total += subTotal
+            console.log("total price: " + _total)
+        });
+
+        $('#totalPrice').val(_total)
+    });
+
     $('#pickedItemsTable').on('click', '.removeItemBtn', function () {
         let em = $(this).closest('tr')
         let id = em.find('td').eq(0).text();
@@ -140,10 +125,9 @@ $(function () {
                 $('#'+id+'').remove()
                 $('#qty_'+id+'').remove()
                 
-                cartAll.splice(i, 1)   
+                cartAll.splice(i, 1)
             }
         }
-        // alert(cartAll);
 
         pickedItemsTable.row($(this).parents('tr')).remove().draw()
         setValueOfTransaction(pickedItemsTable, id)
@@ -154,6 +138,7 @@ $(function () {
         let em = $(this).closest('tr')
         let id = em.find('td').eq(0).text();
 
+        pickedItemsTable.draw()
         setValueOfTransaction(pickedItemsTable, id)
         $('#qty_'+id+'').remove()
         $('#groupOfHiddens').append("<input type='hidden' name='chosen_items["+id+"][quantity]' id='qty_" + id + "' value='" + $('#item_quantity_'+id+'').val() + "'>")

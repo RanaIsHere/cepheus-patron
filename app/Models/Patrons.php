@@ -10,4 +10,9 @@ class Patrons extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function seller()
+    {
+        return $this->hasMany(Seller::class, 'patron_id');
+    }
 }
