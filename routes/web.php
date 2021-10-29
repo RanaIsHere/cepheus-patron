@@ -26,26 +26,47 @@ Route::post('/deleteUser', [LoginController::class, 'deleteUser'])->middleware('
 Route::post('/', [LoginController::class, 'login']);
 
 // Dashboard
-Route::get('/dashboard', [DashboardController::class, 'defaultIndex'])->middleware('auth.basic');
-Route::get('/dashboard/patrons', [DashboardController::class, 'defaultPatrons'])->middleware('auth.basic');
-Route::get('/dashboard/products', [DashboardController::class, 'defaultProducts'])->middleware('auth.basic');
-Route::get('/dashboard/suppliers', [DashboardController::class, 'defaultSuppliers'])->middleware('auth.basic');
-Route::get('/dashboard/register', [DashboardController::class, 'defaultRegister'])->middleware('auth.basic');
-Route::get('/dashboard/settings', [DashboardController::class, 'defaultSettings'])->middleware('auth.basic');
-Route::get('/dashboard/transactions', [DashboardController::class, 'defaultTransactions'])->middleware('auth.basic');
-Route::get('/dashboard/supply', [DashboardController::class, 'defaultSupply'])->middleware('auth.basic');
 
-Route::post('/dashboard/patrons', [DashboardController::class, 'addPatrons'])->middleware('auth.basic');
-Route::post('/dashboard/products', [DashboardController::class, 'addProducts'])->middleware('auth.basic');
-Route::post('/dashboard/items', [DashboardController::class, 'addItems'])->middleware('auth.basic');
-Route::post('/dashboard/suppliers', [DashboardController::class, 'addSupplier'])->middleware('auth.basic');
-Route::post('/dashboard/register', [DashboardController::class, 'registerUser'])->middleware('auth.basic');
+// Admin
+Route::group(['middleware' => ['auth.basic', 'privilege:ADMIN']], function () {
+    Route::get('/dashboard/register', [DashboardController::class, 'defaultRegister']);
+    Route::post('/dashboard/register', [DashboardController::class, 'registerUser']);
+});
+
+// Operator
+Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR']], function () {
+    Route::get('/dashboard/transactions', [DashboardController::class, 'defaultTransactions']);
+    Route::get('/dashboard/supply', [DashboardController::class, 'defaultSupply']);
+
+    Route::post('/dashboard/transactions/sell', [DashboardController::class, 'sellItems']);
+    Route::post('/dashboard/supply/buy', [DashboardController::class, 'buySupply']);
+});
+
+// EDP
+Route::group(['middleware' => ['auth.basic', 'privilege:EDP']], function () {
+    Route::post('/dashboard/items', [DashboardController::class, 'addItems']);
+    Route::post('/dashboard/suppliers', [DashboardController::class, 'addSupplier']);
+    Route::post('/dashboard/patrons', [DashboardController::class, 'addPatrons']);
+    Route::post('/dashboard/products', [DashboardController::class, 'addProducts']);
+
+    Route::get('/dashboard/patrons', [DashboardController::class, 'defaultPatrons']);
+    Route::get('/dashboard/suppliers', [DashboardController::class, 'defaultSuppliers']);
+    Route::get('/dashboard/products', [DashboardController::class, 'defaultProducts']);
+});
+
+// General Accesss
+Route::get('/dashboard', [DashboardController::class, 'defaultIndex'])->middleware('auth.basic');
+Route::get('/dashboard/settings', [DashboardController::class, 'defaultSettings'])->middleware('auth.basic');
 Route::post('/dashboard/deleteUser', [DashboardController::class, 'deleteUser'])->middleware('auth.basic');
 Route::post('/dashboard/changeTheme', [DashboardController::class, 'setTheme'])->middleware('auth.basic');
-Route::post('/dashboard/transactions/sell', [DashboardController::class, 'sellItems'])->middleware('auth.basic');
-Route::post('/dashboard/supply/buy', [DashboardController::class, 'buySupply'])->middleware('auth.basic');
 
 
 // Reports
-Route::get('/dashboard/reports/invoices', [ReportController::class, 'defaultInvoiceList'])->middleware('auth.basic');
-Route::get('/dashboard/reports/invoices/{id}', [ReportController::class, 'defaultInvoice'])->middleware('auth.basic');
+
+// Operators
+Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR']], function () {
+    Route::get('/dashboard/reports/invoices', [ReportController::class, 'defaultInvoiceList']);
+    Route::get('/dashboard/reports/invoices/{id}', [ReportController::class, 'defaultInvoice']);
+    Route::get('/dashboard/reports/stocks', [ReportController::class, 'defaultStocksList']);
+    Route::get('/dashboard/reports/stocks/{collection_code}', [ReportController::class, 'defaultStocks']);
+});

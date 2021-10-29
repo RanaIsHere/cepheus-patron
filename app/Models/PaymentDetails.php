@@ -12,4 +12,14 @@ class PaymentDetails extends Model
     protected $table = 'payment_details';
 
     protected $guarded = ['id'];
+
+    public function purchases()
+    {
+        return $this->belongsTo(Purchases::class, 'purchase_id');
+    }
+
+    public function items()
+    {
+        return $this->belongsTo(Items::class, 'item_id');
+    }
 }
