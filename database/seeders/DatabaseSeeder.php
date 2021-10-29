@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'team_origin',
             'email' => 'team_origin@protonmail.com',
             'password' => Hash::make('admin'),
-            'level' => 'OWNER'
+            'level' => 'ADMIN',
+            'created_at' => now(),
+            'updated_at' => now()
         ]);
     }
 }
