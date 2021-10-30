@@ -36,6 +36,7 @@
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
         <script src="{{ asset('/plugins/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('/plugins/datatables/jquery.dataTables.min.js') }}"></script>
@@ -44,7 +45,10 @@
         {{-- <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script> --}}
         <script src="{{ asset('/js/sum.js') }}"></script>
         <script src="{{ asset('/js/main.js') }}"></script>
-        <script src="{{ asset('/js/reports.js') }}"></script>
+        @if ($page == 'Profits')
+            <script src="{{ asset('/js/reports.js') }}"></script>
+        @endif
+        <script src="{{ asset('/js/settings.js') }}"></script>
         @if ($page == 'Invoices')
             <script src="{{ asset('js/invoice.js') }}"></script>
         @endif

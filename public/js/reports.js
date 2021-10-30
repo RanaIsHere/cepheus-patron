@@ -22,8 +22,10 @@ $(function () {
             var nameCell = this.cell({row: rowIdx, column: 1}).data();
             var stockCell = this.cell({row: rowIdx, column: 2}).data();
 
-            chartItemLabels.push(nameCell)
-            chartitemDatasets.push(stockCell)
+            if (stockCell != 0) {
+                chartItemLabels.push(nameCell)
+                chartitemDatasets.push(stockCell)
+            }
         })
 
         const demandChart = new Chart(dChart, {
@@ -55,6 +57,7 @@ $(function () {
             options: {
                 scales: {
                     y: {
+                        suggestedMax: 100,
                         beginAtZero: true
                     }
                 }
