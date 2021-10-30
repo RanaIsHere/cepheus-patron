@@ -51,6 +51,8 @@ $(function () {
     //     e.preventDefault();
     // });
 
+    $('#alert_success').delay(5000).fadeOut()
+    
     $('#productsTable').on('click', '.chooseProductBtn', function () {
         let em = $(this).closest('tr');
         let id = em.find('td').eq(0).text();
