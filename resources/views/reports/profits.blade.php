@@ -30,17 +30,32 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md">
-                <div class="page-header d-flex justify-content-between">
-                    <div class="page-title">
-                        <h1> Reports </h1>
-                    </div>
+        <div class="row d-flex">
+            <div class="col-md-4">
+                <h1> Reports </h1>
+            </div>
 
-                    <button type="button" class="btn btn-primary" id="printBtn" onclick="javascript:window.print();"><i class="si si-printer"></i> Print</button>
+            <div class="col-md text-center" id="passageoftime">
+                <div class="btn-group">
+                    <a href="/dashboard/reports/profits/{{ 'present' }}" class="btn btn-outline-primary @if($passageOfTime == 'present') active @endif">Present</a>
+                    <a href="/dashboard/reports/profits/{{ 'last_week' }}" class="btn btn-outline-primary @if($passageOfTime == 'last_week') active @endif">Last Week</a>
+                    <a href="/dashboard/reports/profits/{{ 'last_month' }}" class="btn btn-outline-primary @if($passageOfTime == 'last_month') active @endif">Last Month</a>
+                    <a href="/dashboard/reports/profits/{{ 'last_year' }}" class="btn btn-outline-primary @if($passageOfTime == 'last_year') active @endif">Last Year</a>
                 </div>
             </div>
+
+            <div class="col-md-4 text-end">
+                <button type="button" class="btn btn-primary" id="printBtn" onclick="javascript:window.print();"><i class="si si-printer"></i> Print</button>
+            </div>
         </div>
+
+        @if ($passageOfTime != 'present')
+            <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert"></button>
+                <p class="fw-bold"> PARAMETER_CODE[{{ $passageOfTime }}] </p>
+                It looks like you are looking into the past! Be warned, things might not be so accurate here. <br>
+            </div>
+        @endif
 
         <div class="row row-cards d-flex justify-content-center">
             <h3 class="text-center"> Employees </h3>
@@ -62,10 +77,10 @@
                 <div class="card">
                   <div class="card-body p-3 text-center">
                     <div class="text-right text-green">
-                      {{ Auth::user()->count() / 100 }}%
+                      {{ $userData->count() / 100 }}%
                       <i class="fe fe-chevron-up"></i>
                     </div>
-                    <div class="h1 m-0">{{ Auth::user()->count(); }}</div>
+                    <div class="h1 m-0">{{ $userData->count(); }}</div>
                     <div class="text-muted mb-4">Active Employees</div>
                   </div>
                 </div>

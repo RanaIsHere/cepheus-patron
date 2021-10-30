@@ -72,5 +72,5 @@ Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR,ADMIN']], funct
 });
 
 Route::group(['middleware' => ['auth.basic', 'privilege:ADMIN']], function () {
-    Route::get('/dashboard/reports/profits', [ReportController::class, 'defaultProfits']);
+    Route::get('/dashboard/reports/profits/{dateSync}', [ReportController::class, 'defaultProfits']);
 });

@@ -24,6 +24,7 @@
         <link rel="stylesheet" href="{{ asset('css/global.css') }}">
         {{-- @if (Cookie::get('theme') != "LIGHT") --}}
             <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+            {{-- <link rel="stylesheet" href="https://unpkg.com/@tabler/core@latest/dist/css/tabler.min.css"> --}}
         {{-- @else
             <link rel="stylesheet" href="../css/dashboard_dark.css">
         @endif --}}
@@ -40,6 +41,7 @@
         <script src="{{ asset('/plugins/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+        {{-- <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script> --}}
         <script src="{{ asset('/js/sum.js') }}"></script>
         <script src="{{ asset('/js/main.js') }}"></script>
         <script src="{{ asset('/js/reports.js') }}"></script>

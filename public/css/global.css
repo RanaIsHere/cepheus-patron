@@ -6,6 +6,10 @@
     #printBtn {
         display: none;
     }
+
+    #passageoftime {
+        display: none;
+    }
 }
 
 /* .dataTables_filter {
