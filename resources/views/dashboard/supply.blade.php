@@ -12,7 +12,7 @@
                 @endif
 
                 @if (Session::has('failure'))
-                    <div class="alert alert-icon alert-success" role="alert" id="alert_success">
+                    <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
                         <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
                     </div>
                 @endif
