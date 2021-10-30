@@ -70,3 +70,7 @@ Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR,ADMIN']], funct
     Route::get('/dashboard/reports/stocks', [ReportController::class, 'defaultStocksList']);
     Route::get('/dashboard/reports/stocks/{collection_code}', [ReportController::class, 'defaultStocks']);
 });
+
+Route::group(['middleware' => ['auth.basic', 'privilege:ADMIN']], function () {
+    Route::get('/dashboard/reports/profits', [ReportController::class, 'defaultProfits']);
+});

@@ -12,4 +12,9 @@ class PayBuffer extends Model
     protected $table = 'pay_buffer';
 
     protected $guarded = ['id'];
+
+    public function seller()
+    {
+        return $this->belongsTo(Seller::class, 'seller_id');
+    }
 }

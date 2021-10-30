@@ -122,7 +122,7 @@ class DashboardController extends Controller
             'item_name' => ['required'],
             'collection_quantity' => ['required'],
             'item_price' => ['required'],
-            'item_stock' => ['required']
+            // 'item_stock' => ['required']
         ]);
 
         $items = new Items;
@@ -132,7 +132,7 @@ class DashboardController extends Controller
         $items->item_name = $validatedData['item_name'];
         $items->collection_quantity = $validatedData['collection_quantity'];
         $items->item_price = $validatedData['item_price'];
-        $items->item_stock = $validatedData['item_stock'];
+        $items->item_stock = 0;
 
         if ($items->save()) {
             $id = $items->id;

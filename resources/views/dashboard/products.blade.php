@@ -97,7 +97,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="form-label">Item Stock</label>
 
                         <div class="input-group">
@@ -106,7 +106,7 @@
                             </span>
                             <input type="number" class="form-control" name="item_stock" placeholder="Item stock" aria-label="Item stock" aria-describedby="basic-addon1" required>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary"> Add Item</button>

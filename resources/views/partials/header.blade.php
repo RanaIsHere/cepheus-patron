@@ -80,6 +80,10 @@
                     <div class="dropdown-menu dropdown-menu-arrow">
                         <a href="/dashboard/reports/invoices" class="dropdown-item">Invoices</a>
                         <a href="/dashboard/reports/stocks" class="dropdown-item">Stock Details</a>
+
+                        @if (Auth::user()->level == 'ADMIN')
+                          <a href="/dashboard/reports/profits" class="dropdown-item">Profit Details</a>
+                        @endif
                     </div>
                   </li>
                 @endif

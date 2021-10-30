@@ -2,6 +2,12 @@
     min-height: calc(997px + 100vh - 997px);
 }
 
+@media print {
+    #printBtn {
+        display: none;
+    }
+}
+
 /* .dataTables_filter {
     text-align: start;
 }

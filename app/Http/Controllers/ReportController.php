@@ -10,6 +10,7 @@ use App\Models\Items;
 use App\Models\Purchases;
 use App\Models\PaymentDetails;
 use App\Models\Suppliers;
+use App\Models\Products;
 
 class ReportController extends Controller
 {
@@ -48,5 +49,20 @@ class ReportController extends Controller
         $paymentDetails = PaymentDetails::find($purchasesData->id);
 
         return view('reports.stock', ['page' => 'Stock', 'purchasesData' => $purchasesData, 'paymentDetails' => $paymentDetails]);
+    }
+
+    public function defaultProfits()
+    {
+        $sellerData = Seller::all();
+        $sellerDetailsData = SellerDetails::all();
+        $itemsData = Items::all();
+        $productsData = Products::all();
+
+        $purchasesData = Purchases::all();
+        $paymentDetailsData = PaymentDetails::all();
+        $supplierData = Suppliers::all();
+        $patronData = Patrons::all();
+
+        return view('reports.profits', ['page' => 'Profits', 'sellerData' => $sellerData, 'sellerDetailsData' => $sellerDetailsData, 'itemsData' => $itemsData, 'productsData' => $productsData, 'purchasesData' => $purchasesData, 'paymentDetailsData' => $paymentDetailsData, 'supplierData' => $supplierData, 'patronData' => $patronData]);
     }
 }
