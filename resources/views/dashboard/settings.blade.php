@@ -4,6 +4,18 @@
     @include('partials.header')
         <div class="container">
             <div class="row">
+                @if (Session::has('success'))
+                    <div class="alert alert-icon alert-success" role="alert" id="alert_success">
+                        <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('success') }}
+                    </div>
+                @endif
+        
+                @if (Session::has('failure'))
+                    <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
+                        <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
+                    </div>
+                @endif
+
                 <h1> Settings </h1>
 
                 <div class="col-md-4">
@@ -63,10 +75,10 @@
                 </div>
 
                 <div class="col-md-4">
-                    <h3> Presence: Present</h3>
+                    <h3> Presence: <span id="presenceLabel"></span></h3>
                     <h4> Present Today at {{ now()->format('M d') }}th on {{ now()->format('H:s') }}</h4>
 
-                    <button class="btn btn-success"> Check In </button>
+                    <button class="btn btn-success" id="checkInBtn"> Check In </button>
                 </div>
 
                 </div>

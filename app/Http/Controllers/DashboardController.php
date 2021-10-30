@@ -17,6 +17,7 @@ use App\Models\SellerDetails;
 use App\Models\PayBuffer;
 use App\Models\Purchases;
 use App\Models\PaymentDetails;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -58,7 +59,7 @@ class DashboardController extends Controller
 
     public function defaultTransactions()
     {
-        $itemData = Items::all();
+        $itemData = Items::where('item_stock', '>', 0)->get();
         $productData = Products::all();
         $patronData  = Patrons::all();
         return view('dashboard.transactions', ['page' => 'Transactions', 'itemData' => $itemData, 'productData' => $productData, 'patronData' => $patronData]);
@@ -122,7 +123,7 @@ class DashboardController extends Controller
             'item_name' => ['required'],
             'collection_quantity' => ['required'],
             'item_price' => ['required'],
-            'item_stock' => ['required']
+            // 'item_stock' => ['required']
         ]);
 
         $items = new Items;
@@ -132,7 +133,7 @@ class DashboardController extends Controller
         $items->item_name = $validatedData['item_name'];
         $items->collection_quantity = $validatedData['collection_quantity'];
         $items->item_price = $validatedData['item_price'];
-        $items->item_stock = $validatedData['item_stock'];
+        $items->item_stock = 0;
 
         if ($items->save()) {
             $id = $items->id;
@@ -277,7 +278,22 @@ class DashboardController extends Controller
                             $seller_details->item_price = Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price;
                             $seller_details->item_quantity = (int)$item_quantity;
                             $seller_details->sub_total = Items::where('id', $chosen_items[0][$i]['id'])->first()->item_price * $item_quantity;
-                            $seller_details->save();
+                            
+                            if ($seller_details->save())
+                            {
+                                $items = Items::where('id', $seller_details->item_id);
+
+                                $item_stock = (int)$items->item_stock;
+                                $item_stock -= (int)$seller_details->item_quantity;
+                                
+                                if ($item_stock < 0)
+                                {
+                                    return redirect()->back()->with('failure', 'Transaction ascending beyond the stocks. Data corruption? Please contact our administrators.');
+                                }
+
+                                $items->item_stock = $item_stock;
+                                $items->update();
+                            }
                         }
                         // } else {
                         //     var_dump(in_array($i, $chosen_items[0][array_key_first($chosen_items[0])]));
@@ -292,7 +308,22 @@ class DashboardController extends Controller
                     $seller_details->item_price = Items::where('id', $chosen_items[0][array_key_first($chosen_items[0])]['id'])->first()->item_price;
                     $seller_details->item_quantity = (int)$item_quantity;
                     $seller_details->sub_total = Items::where('id', $chosen_items[0][array_key_first($chosen_items[0])]['id'])->first()->item_price * $item_quantity;
-                    $seller_details->save();
+                    
+                    if ($seller_details->save())
+                    {
+                        $items = Items::where('id', $seller_details->item_id)->first();
+
+                        $item_stock = (int)$items->item_stock;
+                        $item_stock -= (int)$seller_details->item_quantity;
+
+                        if ($item_stock < 0)
+                        {
+                            return redirect()->back()->with('failure', 'Transaction ascending beyond the stocks. Data corruption? Please contact our administrators.');
+                        }
+                        
+                        $items->item_stock = $item_stock;
+                        $items->update();
+                    }
                 }
 
                 // dd($chosen_items[0]);
@@ -305,7 +336,6 @@ class DashboardController extends Controller
                 $pay_buffer->returning = $tax;
             
                 if ($pay_buffer->save()) {
-                    // return redirect('/dashboard/transactions')->with('success', 'Transactions successful!');
                     return redirect('/dashboard/reports/invoices/' . $seller->invoice_id)->with('success', 'Transaction successful!');
                 }
             }

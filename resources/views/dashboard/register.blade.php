@@ -6,6 +6,18 @@
   <div class="page-single">
     <div class="container">
       <div class="row">
+        @if (Session::has('success'))
+            <div class="alert alert-icon alert-success" role="alert" id="alert_success">
+                <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('success') }}
+            </div>
+        @endif
+
+        @if (Session::has('failure'))
+            <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
+                <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
+            </div>
+        @endif
+
         <div class="col col-login mx-auto">
           {{-- <div class="text-center mb-6">
             <img src="./assets/brand/tabler.svg" class="h-6" alt="">

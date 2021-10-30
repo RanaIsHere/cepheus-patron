@@ -78,14 +78,12 @@
                   <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="dropdown"><i class="fe fe-home"></i> Reports</a>
                     <div class="dropdown-menu dropdown-menu-arrow">
-                      @if (Auth::user()->level == "OPERATOR")
                         <a href="/dashboard/reports/invoices" class="dropdown-item">Invoices</a>
                         <a href="/dashboard/reports/stocks" class="dropdown-item">Stock Details</a>
-                      @endif
 
-                      @if (Auth::user()->level == "ADMIN")
-                          
-                      @endif
+                        @if (Auth::user()->level == 'ADMIN')
+                          <a href="/dashboard/reports/profits/{{ 'present' }}" class="dropdown-item">Profit Details</a>
+                        @endif
                     </div>
                   </li>
                 @endif

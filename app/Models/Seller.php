@@ -18,6 +18,11 @@ class Seller extends Model
         return $this->hasOne(SellerDetails::class, 'seller_id');
     }
 
+    public function payBuffer()
+    {
+        return $this->hasOne(PayBuffer::class, 'seller_id');
+    }
+
     public function patrons()
     {
         return $this->belongsTo(Patrons::class);

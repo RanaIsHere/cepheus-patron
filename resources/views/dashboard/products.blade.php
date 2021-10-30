@@ -4,6 +4,18 @@
     @include('partials.header')
     <div class="container">
         <div class="row">
+            @if (Session::has('success'))
+                <div class="alert alert-icon alert-success" role="alert" id="alert_success">
+                    <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('success') }}
+                </div>
+            @endif
+
+            @if (Session::has('failure'))
+                <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
+                    <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
+                </div>
+            @endif
+
             <div class="col-md-4">
                 <form action="/dashboard/products" method="post">
                     @csrf
@@ -97,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="form-label">Item Stock</label>
 
                         <div class="input-group">
@@ -106,7 +118,7 @@
                             </span>
                             <input type="number" class="form-control" name="item_stock" placeholder="Item stock" aria-label="Item stock" aria-describedby="basic-addon1" required>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary"> Add Item</button>
