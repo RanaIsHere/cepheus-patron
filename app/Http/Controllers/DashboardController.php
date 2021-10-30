@@ -305,7 +305,6 @@ class DashboardController extends Controller
                 $pay_buffer->returning = $tax;
             
                 if ($pay_buffer->save()) {
-                    // return redirect('/dashboard/transactions')->with('success', 'Transactions successful!');
                     return redirect('/dashboard/reports/invoices/' . $seller->invoice_id)->with('success', 'Transaction successful!');
                 }
             }

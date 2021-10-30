@@ -64,7 +64,7 @@ Route::post('/dashboard/changeTheme', [DashboardController::class, 'setTheme'])-
 // Reports
 
 // Operators
-Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR']], function () {
+Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR,ADMIN']], function () {
     Route::get('/dashboard/reports/invoices', [ReportController::class, 'defaultInvoiceList']);
     Route::get('/dashboard/reports/invoices/{id}', [ReportController::class, 'defaultInvoice']);
     Route::get('/dashboard/reports/stocks', [ReportController::class, 'defaultStocksList']);

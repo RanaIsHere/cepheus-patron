@@ -15,19 +15,14 @@ class Privilege
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $privilege)
+    public function handle(Request $request, Closure $next, ... $privilege)
     {
-        if (Auth::user()->level == $privilege)
-        {
-            return $next($request);
+        foreach($privilege as $level) {
+            if (Auth::user()->level == $level) {
+                return $next($request);
+            }
         }
 
         return redirect()->back()->with('illegal', 'Illegal actions found! Please do not try to access unaccessible information not by your privilege.');
-
-        // foreach($privilege as $level) {
-        //     if (Auth::user()->level == $level) {
-        //         return $next($request);
-        //     }
-        // }
     }
 }
