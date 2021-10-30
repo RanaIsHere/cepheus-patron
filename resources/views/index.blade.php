@@ -8,7 +8,15 @@
           <div class="col col-login mx-auto">
             <div class="text-center mb-6">
               <img src="./assets/brand/tabler.svg" class="h-6" alt="">
+              <h1>Cepheus Patron</h1>
             </div>
+
+            @mobile
+              <div class="alert alert-danger" role="alert">
+                  It seems that you are using this tool on a mobile device. Please be warned that we did not test this application with the exception of desktop devices.    
+              </div>
+            @endmobile
+
             <form class="card" action="/" method="post">
               @csrf
 
