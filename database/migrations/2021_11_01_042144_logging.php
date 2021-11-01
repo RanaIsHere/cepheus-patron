@@ -20,8 +20,10 @@ class Logging extends Migration
             $table->timestamps();
         });
 
+        // A trigger after insertion from users. A factory creation used 33 triggers on create.
+
         DB::unprepared(DB::raw("
-            CREATE TRIGGER sellLog AFTER INSERT 
+            CREATE TRIGGER userLogCreation AFTER INSERT 
             ON users FOR EACH ROW BEGIN 
                 INSERT INTO logging (action, created_at, updated_at) VALUES ('INSERT', CURRENT_TIME(), CURRENT_TIME());
             END;
