@@ -4,72 +4,10 @@
     @include('partials.header')
     <div class="container">
         <div class="row">
-            @if (Session::has('success'))
-                <div class="alert alert-icon alert-success" role="alert" id="alert_success">
-                    <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('success') }}
-                </div>
-            @endif
-
-            @if (Session::has('failure'))
-                <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
-                    <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
-                </div>
-            @endif
-
-            <div class="col-md-4">
-                <form action="/dashboard/suppliers" method="post">
-                    @csrf
-
-                    <div class="form-group">
-                        <label class="form-label">Supplier name</label>
-
-                        <div class="input-group">
-                            <span class="input-group-prepend" id="basic-addon1">
-                                <span class="input-group-text">#</span>
-                            </span>
-                            <input type="text" class="form-control" name="supplier_name" placeholder="Supplier name" aria-label="Supplier name" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Supplier Address</label>
-
-                        <div class="input-group">
-                            <span class="input-group-prepend" id="basic-addon1">
-                                <span class="input-group-text">A</span>
-                            </span>
-                            <input type="text" class="form-control" name="supplier_address" placeholder="Supplier address" aria-label="Supplier address" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Supplier City</label>
-
-                        <div class="input-group">
-                            <span class="input-group-prepend" id="basic-addon1">
-                                <span class="input-group-text">C</span>
-                            </span>
-                            <input type="text" class="form-control" name="supplier_city" placeholder="Supplier city" aria-label="Supplier city" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Supplier Phone</label>
-
-                        <div class="input-group">
-                            <span class="input-group-prepend" id="basic-addon1">
-                                <span class="input-group-text">+</span>
-                            </span>
-                            <input type="text" class="form-control" name="supplier_phone" placeholder="Supplier phone's number" aria-label="Supplier phone's number" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary"> Add Supplier</button>
-                    </div>
-                </form>
+            <div class="text-end">
+                <button type="button" class="btn btn-primary btn-sm mb-5" data-bs-toggle="modal" data-bs-target="#supplierModal">Create Supplier</button>
             </div>
-
+            
             <div class="col-md">
                 <table class="table table-striped" id="suppliersTable">
                     <thead>

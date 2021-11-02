@@ -31,6 +31,8 @@
     </head>
 
     <body class="">
+        @include('partials.modals')
+
         <div class="content">
             @yield('container')
         </div>

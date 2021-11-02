@@ -71,6 +71,13 @@
                     </form>
                 </div>
 
+                <style>
+                    .dataTables_filter{ 
+                        display: flex;
+                        justify-content: flex-end; 
+                    }
+                </style>
+
                 <div class="col-md-8">
                     <table class="table table-striped" id="suppliersTable">
                         <thead>

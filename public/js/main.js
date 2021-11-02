@@ -38,7 +38,8 @@ $(function () {
         responsive: true
     });
     $('#suppliersTable').DataTable({
-        responsive: false
+        responsive: false,
+        "lengthMenu": [[5, 10, 25], [5, 10, 25]]
     });
     $('#usersTable').DataTable({
         responsive: true
@@ -68,7 +69,8 @@ $(function () {
         let name = em.find('td').eq(2).text();
 
         $('#patronId').val(id);
-        $('#patronName').html(name);
+        $('#patronName').val(name);
+        // $('#patronSelectModal').toggle();
     });
 
     $('#itemsTable').on('click', '.addItemBtn', function () {
