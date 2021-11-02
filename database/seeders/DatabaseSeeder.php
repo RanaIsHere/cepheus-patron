@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Patrons;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory(32)->create();
+        Patrons::factory(12)->create();
 
         DB::table('users')->insert([
             'name' => 'team_origin',
