@@ -4,6 +4,18 @@
     @include('partials.header')
     <div class="container">
         <div class="row">
+            @if (Session::has('success'))
+                <div class="alert alert-icon alert-success" role="alert" id="alert_success">
+                    <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('success') }}
+                </div>
+            @endif
+
+            @if (Session::has('failure'))
+                <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
+                    <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
+                </div>
+            @endif
+            
             <div class="col-md">
                 <div class="text-end">
                     <button type="button" class="btn btn-primary btn-sm mb-5" data-bs-toggle="modal" data-bs-target="#patronsModal">Create Patrons</button>

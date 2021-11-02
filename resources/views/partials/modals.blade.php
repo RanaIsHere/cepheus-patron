@@ -16,17 +16,7 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        @if (Session::has('success'))
-                        <div class="alert alert-icon alert-success" role="alert" id="alert_success">
-                            <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('success') }}
-                        </div>
-                        @endif
-
-                        @if (Session::has('failure'))
-                        <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
-                            <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
-                        </div>
-                        @endif
+                        
 
                         <div class="col-md">
                             <form action="/dashboard/products" method="post">
@@ -179,18 +169,6 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        @if (Session::has('success'))
-                            <div class="alert alert-icon alert-success" role="alert" id="alert_success">
-                                <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('success') }}
-                            </div>
-                        @endif
-            
-                        @if (Session::has('failure'))
-                            <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
-                                <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
-                            </div>
-                        @endif
-            
                         <div class="col-md">
                             <form action="/dashboard/patrons" method="post">
                                 @csrf
@@ -274,18 +252,6 @@
             <div class="modal-body">
                 <div class="container-fluid">
                     <div class="row">
-                        @if (Session::has('success'))
-                            <div class="alert alert-icon alert-success" role="alert" id="alert_success">
-                                <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('success') }}
-                            </div>
-                        @endif
-            
-                        @if (Session::has('failure'))
-                            <div class="alert alert-icon alert-danger" role="alert" id="alert_success">
-                                <i class="fe fe-check mr-2" aria-hidden="true"></i> {{ Session::get('failure') }}
-                            </div>
-                        @endif
-            
                         <div class="col-md">
                             <form action="/dashboard/suppliers" method="post">
                                 @csrf
