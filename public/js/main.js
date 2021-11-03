@@ -154,7 +154,7 @@ $(function () {
         let supplier_name = em.find('td').eq(2).text();
 
         $('#supplierId').val(id);
-        $('#supplierName').html(supplier_name);
+        $('#supplierName').val(supplier_name);
         checkIfSus()
     });
 

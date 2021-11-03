@@ -45,6 +45,7 @@
             </div>
 
             <div class="col-md-4 text-end">
+                <button type="button" class="btn btn-primary" id="printBtn" onclick=""><i class="si si-printer"></i> Export</button>
                 <button type="button" class="btn btn-primary" id="printBtn" onclick="javascript:window.print();"><i class="si si-printer"></i> Print</button>
             </div>
         </div>
