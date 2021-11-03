@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Patrons;
@@ -17,7 +18,6 @@ use App\Models\SellerDetails;
 use App\Models\PayBuffer;
 use App\Models\Purchases;
 use App\Models\PaymentDetails;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -81,13 +81,16 @@ class DashboardController extends Controller
 
     public function pullItem(Request $request)
     {
+        Carbon::setTestNow(now()->addDays(2));
+
         $validatedData = $request->validate([
             'id' => ['required']
         ]);
 
         $items = Items::where('id', $validatedData['id'])->first();
-        if ($items->expiration_date <= now()->toDateTimeString()) {
-            if ($items->pull_status != 1) {
+        if ($items->pull_status != 1) {
+            if ($items->expiration_date <= now()->toDateTimeString()) {
+
                 $items->pull_status = 1;
                 $items->item_stock = 0;
 
@@ -97,10 +100,19 @@ class DashboardController extends Controller
                     return redirect()->back()->with('failure', 'Unknown failure.');
                 }
             } else {
-                return redirect()->back()->with('failure', 'Item has already been pulled. Please contact an operator to push it.');
+                return redirect()->back()->with('failure', 'Item is not expired. Nice try!');
             }
         } else {
-            return redirect()->back()->with('failure', 'Item is not expired. Nice try!');
+            $items->pull_status = 0;
+            $items->item_stock = $items->healthLogs->expired_stock;
+
+            if ($items->update()) {
+                return redirect()->back()->with('success', 'Item is pushed back into the systems from the medical log.');
+            } else {
+                return redirect()->back()->with('failure', 'Item cannot be pushed back.');
+            }
+
+            // return redirect()->back()->with('failure', 'Item has already been pulled. Please contact an operator to push it.');
         }
     }
 
@@ -381,7 +393,8 @@ class DashboardController extends Controller
             'supplier_id' => ['required'],
             'stock_quantity' => ['required'],
             'total_amount' => ['required'],
-            'item_id' => ['required']
+            'item_id' => ['required'],
+            'expiration_date' => ['required'],
         ]);
 
         // dd($validatedData);
@@ -413,6 +426,7 @@ class DashboardController extends Controller
 
                     $items->item_stock += (int)$validatedData['stock_quantity'];
                     $items->pull_status = 0;
+                    $items->expiration_date = $validatedData['expiration_date'];
 
                     $items->update();
 

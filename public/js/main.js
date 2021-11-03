@@ -25,20 +25,24 @@ $(function () {
     var tempPrice = 0
 
     $('#patronsTable').DataTable({
-        responsive: false
+        responsive: false,
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     });
     $('#productsTable').DataTable({
-        responsive: true
+        responsive: true,
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     });
     $('#itemsTable').DataTable({
-        responsive: true
+        responsive: true,
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     });
     $('#suppliersTable').DataTable({
         responsive: false,
-        "lengthMenu": [[5, 10, 25], [5, 10, 25]]
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     });
     $('#usersTable').DataTable({
-        responsive: true
+        responsive: true,
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     });
     var pickedItemsTable = $('#pickedItemsTable').DataTable({
         responsive: true,

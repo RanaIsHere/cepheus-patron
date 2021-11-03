@@ -48,9 +48,9 @@
                                 <td>{{ $items->item_stock }}</td>
                                 <td>{{ $items->expiration_date }}</td>
                                 @if ($items->pull_status == 0)
-                                    <td>NO</td>
+                                    <td>PUSHED</td>
                                 @else
-                                    <td>YES</td>                                    
+                                    <td>PULLED</td>                                    
                                 @endif
                                 <td>
                                     <form action="/dashboard/health/pull" method="post">

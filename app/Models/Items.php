@@ -25,4 +25,9 @@ class Items extends Model
     {
         return $this->hasMany(PaymentDetails::class, 'item_id');
     }
+
+    public function healthLogs()
+    {
+        return $this->hasOne(HealthLogs::class, 'item_id');
+    }
 }

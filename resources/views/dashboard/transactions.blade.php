@@ -127,7 +127,7 @@
                                 <td>{{ $items->item_price }}</td>
                                 <td>{{ $items->item_stock }}</td>
                                 <td>{{ $items->expiration_date }}</td>
-                                <td><button class="btn btn-success addItemBtn"> Add to Cart </button></td>
+                                <td><button class="btn btn-success addItemBtn" @if ($items->expiration_date <= now()->toDateTimeString()) disabled @endif> Add to Cart </button></td>
                             </tr>
                         @endforeach
                     </tbody>
