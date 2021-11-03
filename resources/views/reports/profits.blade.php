@@ -45,7 +45,23 @@
             </div>
 
             <div class="col-md-4 text-end">
-                <button type="button" class="btn btn-primary" id="printBtn" onclick=""><i class="si si-printer"></i> Export</button>
+                {{-- <a href="{{ route('export') }}" role="button" class="btn btn-primary" id="printBtn"><i class="si si-printer"></i> Export</a> --}}
+                <div class="dropdown">
+                    <a role="button" class="btn btn-primary text-light" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="si si-printer"></i> Export </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/dashboard/reports/exportSellerData">
+                          <i class="dropdown-icon fe fe-settings"></i> Export Seller Data
+                        </a>
+
+                        <a class="dropdown-item" href="/dashboard/reports/exportSellerDetailsData">
+                          <i class="dropdown-icon fe fe-settings"></i> Export Seller Details Data
+                        </a>
+
+                        <a class="dropdown-item" href="/dashboard/reports/exportPurchasesData">
+                          <i class="dropdown-icon fe fe-settings"></i> Export Purchases Data
+                        </a>
+                    </div>
+                </div>
                 <button type="button" class="btn btn-primary" id="printBtn" onclick="javascript:window.print();"><i class="si si-printer"></i> Print</button>
             </div>
         </div>

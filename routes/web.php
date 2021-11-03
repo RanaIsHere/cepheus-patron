@@ -71,6 +71,12 @@ Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR,ADMIN']], funct
     Route::get('/dashboard/reports/stocks/{collection_code}', [ReportController::class, 'defaultStocks']);
 });
 
+// Admin
 Route::group(['middleware' => ['auth.basic', 'privilege:ADMIN']], function () {
     Route::get('/dashboard/reports/profits/{dateSync}', [ReportController::class, 'defaultProfits']);
+
+    // Exports
+    Route::get('/dashboard/reports/exportSellerData', [ReportController::class, 'exportSellerData'])->name('exportSellerData');
+    Route::get('/dashboard/reports/exportSellerDetailsData', [ReportController::class, 'exportSellerDetails'])->name('exportSellerDetails');
+    Route::get('/dashboard/reports/exportPurchasesData', [ReportController::class, 'exportPurchases'])->name('exportPurchases');
 });

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PurchasesReport;
+use App\Exports\SellerDetailsReport;
+use App\Exports\SellerReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Seller;
@@ -14,6 +17,7 @@ use App\Models\Suppliers;
 use App\Models\Products;
 use App\Models\User;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -56,57 +60,68 @@ class ReportController extends Controller
 
     public function defaultProfits($dateSync)
     {
-        if ($dateSync == 'present')
-        {
+        if ($dateSync == 'present' or $dateSync != null) {
             $sellerData = Seller::all();
             $sellerDetailsData = SellerDetails::all();
             $itemsData = Items::all();
             $productsData = Products::all();
-    
+
             $purchasesData = Purchases::all();
             $paymentDetailsData = PaymentDetails::all();
             $supplierData = Suppliers::all();
             $patronData = Patrons::all();
             $userData = User::all();
-        } else if ($dateSync == 'last_week')
-        {
+        } else if ($dateSync == 'last_week') {
             $sellerData = Seller::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
             $sellerDetailsData = SellerDetails::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
             $itemsData = Items::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
             $productsData = Products::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
-    
+
             $purchasesData = Purchases::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
             $paymentDetailsData = PaymentDetails::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
             $supplierData = Suppliers::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
             $patronData = Patrons::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
             $userData = User::where('created_at', '<=', Carbon::now()->subDays(7)->toDateTimeString())->get();
-        } else if ($dateSync == 'last_month')
-        {
+        } else if ($dateSync == 'last_month') {
             $sellerData = Seller::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
             $sellerDetailsData = SellerDetails::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
             $itemsData = Items::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
             $productsData = Products::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
-    
+
             $purchasesData = Purchases::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
             $paymentDetailsData = PaymentDetails::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
             $supplierData = Suppliers::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
             $patronData = Patrons::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
             $userData = User::where('created_at', '<=', Carbon::now()->subMonth()->toDateTimeString())->get();
-        } else if ($dateSync == 'last_year')
-        {
+        } else if ($dateSync == 'last_year') {
             $sellerData = Seller::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
             $sellerDetailsData = SellerDetails::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
             $itemsData = Items::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
             $productsData = Products::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
-    
+
             $purchasesData = Purchases::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
             $paymentDetailsData = PaymentDetails::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
             $supplierData = Suppliers::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
             $patronData = Patrons::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
             $userData = User::where('created_at', '<=', Carbon::now()->subYear()->toDateTimeString())->get();
         }
-        
+
 
         return view('reports.profits', ['page' => 'Profits', 'sellerData' => $sellerData, 'sellerDetailsData' => $sellerDetailsData, 'itemsData' => $itemsData, 'productsData' => $productsData, 'purchasesData' => $purchasesData, 'paymentDetailsData' => $paymentDetailsData, 'supplierData' => $supplierData, 'patronData' => $patronData, 'userData' => $userData, 'passageOfTime' => $dateSync]);
+    }
+
+    public function exportSellerData()
+    {
+        return Excel::download(new SellerReport, 'seller.xlsx');
+    }
+
+    public function exportSellerDetails()
+    {
+        return Excel::download(new SellerDetailsReport, 'seller_details.xlsx');
+    }
+
+    public function exportPurchases()
+    {
+        return Excel::download(new PurchasesReport, 'purchases.xlsx');
     }
 }
