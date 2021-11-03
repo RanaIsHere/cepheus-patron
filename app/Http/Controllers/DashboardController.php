@@ -103,6 +103,7 @@ class DashboardController extends Controller
         } else {
             $items->pull_status = 0;
             $items->item_stock = $items->healthLogs->expired_stock;
+            $items->expiration_date = $items->healthLogs->expired_date;
 
             if ($items->update()) {
                 return redirect()->back()->with('success', 'Item is pushed back into the systems from the medical log.');
@@ -422,9 +423,21 @@ class DashboardController extends Controller
                 if ($paymentDetails->save()) {
                     $items = Items::where('id', $validatedData['item_id'])->first();
 
-                    $items->item_stock += (int)$validatedData['stock_quantity'];
-                    $items->pull_status = 0;
-                    $items->expiration_date = $validatedData['expiration_date'];
+                    if (now()->toDateTimeString() <= $items->expiration_date) {
+                        $items->item_stock += (int)$validatedData['stock_quantity'];
+                        $items->pull_status = 0;
+                        // $items->expiration_date = $validatedData['expiration_date'];
+                    } else {
+                        $items->item_stock = 0;
+                        $items->item_stock += (int)$validatedData['stock_quantity'];
+                        $items->pull_status = 0;
+                        $items->expiration_date = $validatedData['expiration_date'];
+                        $items->healthLogs->expired_date = $validatedData['expiration_date'];
+
+                        if (!$items->healthLogs->update()) {
+                            return redirect()->back()->with('failure', 'Data corruption detected.');
+                        }
+                    }
 
                     $items->update();
 
