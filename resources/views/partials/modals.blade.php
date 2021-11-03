@@ -121,6 +121,19 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label class="form-label">Expiration Date</label>
+
+                                    <div class="input-group">
+                                        <span class="input-group-prepend" id="basic-addon1">
+                                            <span class="input-group-text">Y-m-D</span>
+                                        </span>
+                                        <input type="date" class="form-control" name="expiration_date"
+                                            placeholder="Expiration date" aria-label="Expiration date"
+                                            aria-describedby="basic-addon1" required>
+                                    </div>
+                                </div>
+
                                 {{-- <div class="form-group">
                                     <label class="form-label">Item Stock</label>
 

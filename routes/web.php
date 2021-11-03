@@ -48,10 +48,12 @@ Route::group(['middleware' => ['auth.basic', 'privilege:EDP']], function () {
     Route::post('/dashboard/suppliers', [DashboardController::class, 'addSupplier']);
     Route::post('/dashboard/patrons', [DashboardController::class, 'addPatrons']);
     Route::post('/dashboard/products', [DashboardController::class, 'addProducts']);
+    Route::post('/dashboard/health/pull', [DashboardController::class, 'pullItem']);
 
     Route::get('/dashboard/patrons', [DashboardController::class, 'defaultPatrons']);
     Route::get('/dashboard/suppliers', [DashboardController::class, 'defaultSuppliers']);
     Route::get('/dashboard/products', [DashboardController::class, 'defaultProducts']);
+    Route::get('/dashboard/health', [DashboardController::class, 'defaultHealth']);
 });
 
 // General Accesss

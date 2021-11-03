@@ -111,6 +111,7 @@
                             <th>Collection QTY</th>
                             <th>Item Price</th>
                             <th>Item Stock</th>
+                            <th>Expiration Date</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -125,6 +126,7 @@
                                 <td>{{ $items->collection_quantity }}</td>
                                 <td>{{ $items->item_price }}</td>
                                 <td>{{ $items->item_stock }}</td>
+                                <td>{{ $items->expiration_date }}</td>
                                 <td><button class="btn btn-success addItemBtn"> Add to Cart </button></td>
                             </tr>
                         @endforeach

@@ -61,6 +61,9 @@
                   <a href="/dashboard/products" class="nav-link"><i class="fe fe-box"></i> Products </a>
                 </li>
                 <li class="nav-item">
+                  <a href="/dashboard/health" class="nav-link"><i class="fe fe-box"></i> Product Health </a>
+                </li>
+                <li class="nav-item">
                   <a href="/dashboard/suppliers" class="nav-link"><i class="fe fe-box"></i> Suppliers </a>
                 </li>
                 @endif

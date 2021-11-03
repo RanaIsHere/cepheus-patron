@@ -59,7 +59,7 @@ class DashboardController extends Controller
 
     public function defaultTransactions()
     {
-        $itemData = Items::where('item_stock', '>', 0)->get();
+        $itemData = Items::where('item_stock', '>', 0)->where('pull_status', 0)->get();
         $productData = Products::all();
         $patronData  = Patrons::all();
         return view('dashboard.transactions', ['page' => 'Transactions', 'itemData' => $itemData, 'productData' => $productData, 'patronData' => $patronData]);
@@ -70,6 +70,38 @@ class DashboardController extends Controller
         $supplierData = Suppliers::all();
         $itemData = Items::all();
         return view('dashboard.supply', ['page' => 'Supply', 'itemData' => $itemData, 'supplierData' => $supplierData]);
+    }
+
+    public function defaultHealth()
+    {
+        $itemData = Items::where('expiration_date', now()->toDateTimeString())->orWhere('expiration_date', '>', now()->subDays(14)->toDateTimeString())->get();
+
+        return view('dashboard.health', ['page' => 'Health', 'itemData' => $itemData]);
+    }
+
+    public function pullItem(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id' => ['required']
+        ]);
+
+        $items = Items::where('id', $validatedData['id'])->first();
+        if ($items->expiration_date <= now()->toDateTimeString()) {
+            if ($items->pull_status != 1) {
+                $items->pull_status = 1;
+                $items->item_stock = 0;
+
+                if ($items->update()) {
+                    return redirect()->back()->with('success', 'Suspicious item pulled back out. No longer available in transaction until an operator has resupplied.');
+                } else {
+                    return redirect()->back()->with('failure', 'Unknown failure.');
+                }
+            } else {
+                return redirect()->back()->with('failure', 'Item has already been pulled. Please contact an operator to push it.');
+            }
+        } else {
+            return redirect()->back()->with('failure', 'Item is not expired. Nice try!');
+        }
     }
 
     public function addPatrons(Request $request)
@@ -122,6 +154,7 @@ class DashboardController extends Controller
             'item_name' => ['required'],
             'collection_quantity' => ['required'],
             'item_price' => ['required'],
+            'expiration_date' => ['required'],
             // 'item_stock' => ['required']
         ]);
 
@@ -133,6 +166,7 @@ class DashboardController extends Controller
         $items->collection_quantity = $validatedData['collection_quantity'];
         $items->item_price = $validatedData['item_price'];
         $items->item_stock = 0;
+        $items->expiration_date  = $validatedData['expiration_date'];
 
         if ($items->save()) {
             $id = $items->id;
@@ -315,6 +349,10 @@ class DashboardController extends Controller
                             return redirect()->back()->with('failure', 'Transaction ascending beyond the stocks. Data corruption? Please contact our administrators.');
                         }
 
+                        if ($items->pull_status == 1) {
+                            return redirect()->back()->with('failure', 'Item is expired. Awaiting supply.');
+                        }
+
                         $items->item_stock = $item_stock;
                         $items->update();
                     }
@@ -374,6 +412,7 @@ class DashboardController extends Controller
                     $items = Items::where('id', $validatedData['item_id'])->first();
 
                     $items->item_stock += (int)$validatedData['stock_quantity'];
+                    $items->pull_status = 0;
 
                     $items->update();
 

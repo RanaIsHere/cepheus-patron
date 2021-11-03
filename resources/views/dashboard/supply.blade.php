@@ -116,6 +116,7 @@
                                 <th>Item Name</th>
                                 <th>Item Price</th>
                                 <th>Item Stock</th>
+                                <th>Pull Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -129,6 +130,7 @@
                                     <td>{{ $items->item_name }}</td>
                                     <td>{{ $items->item_price }}</td>
                                     <td>{{ $items->item_stock }}</td>
+                                    <td>{{ $items->pull_status }}</td>
                                     <td><button class="btn btn-success resupplyStockBtn"> Resupply </button></td>
                                 </tr>
                             @endforeach
