@@ -81,8 +81,6 @@ class DashboardController extends Controller
 
     public function pullItem(Request $request)
     {
-        Carbon::setTestNow(now()->addDays(2));
-
         $validatedData = $request->validate([
             'id' => ['required']
         ]);
