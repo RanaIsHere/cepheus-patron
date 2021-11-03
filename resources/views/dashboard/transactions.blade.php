@@ -31,12 +31,14 @@
 
                         <div class="input-group">
                             <span class="input-group-prepend" id="basic-addon1">
-                                <span class="input-group-text">PTR</span>
+                                {{-- <span class="input-group-text">PTR</span> --}}
+                                <button type="button" class="btn btn-primary btn-sm mb-5" data-bs-toggle="modal" data-bs-target="#patronSelectModal">Select</button>
                             </span>
-                            <input type="text" class="form-control" name="patron_id" placeholder="Patron ID" id="patronId" aria-label="Patron ID" aria-describedby="basic-addon1" readonly>
+                            <input type="text" class="form-control" name="patronName" aria-describedby="basic-addon1" id="patronName" disabled>
+                            <input type="hidden" class="form-control" name="patron_id" placeholder="Patron ID" id="patronId" aria-label="Patron ID" aria-describedby="basic-addon1" readonly>
                         </div>
 
-                        <p class="form-text"> Current Patron: <span id="patronName" class="fw-bold"></span> </p> 
+                        {{-- <p class="form-text"> Current Patron: <span id="patronName" class="fw-bold"></span> </p>  --}}
                     </div>
 
                     <div class="form-group">
@@ -67,39 +69,7 @@
                 </form>
             </div>
 
-            <div class="col-md-4">
-                <h3> Patrons: </h3>
-
-                <table class="table table-striped" id="patronsTable">
-                    <thead>
-                    <tr>
-                        <th class="d-none">#</th>
-                        <th>Patron Code</th>
-                        <th>Patron Name</th>
-                        <th class="d-none">Patron Address</th>
-                        <th class="d-none">Patron Phone</th>
-                        <th class="d-none">Patron Email</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    @foreach ($patronData as $p)
-                        <tr>
-                            <td class="d-none">{{ $p->id }}</td>
-                            <td>{{ $p->patron_code }}</td>
-                            <td>{{ $p->patron_name }}</td>
-                            <td class="d-none">{{ $p->patron_address }}</td>
-                            <td class="d-none">{{ $p->patron_phone }}</td>
-                            <td class="d-none">{{ $p->email }}</td>
-                            <td> <button class="btn btn-primary choosePatronBtn"> Choose </button> </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-md-4">
+            <div class="col-md-8">
                 <h3> Items: </h3>
 
                 <table class="table table-striped" id="pickedItemsTable">
@@ -141,6 +111,7 @@
                             <th>Collection QTY</th>
                             <th>Item Price</th>
                             <th>Item Stock</th>
+                            <th>Expiration Date</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -155,6 +126,7 @@
                                 <td>{{ $items->collection_quantity }}</td>
                                 <td>{{ $items->item_price }}</td>
                                 <td>{{ $items->item_stock }}</td>
+                                <td>{{ $items->expiration_date }}</td>
                                 <td><button class="btn btn-success addItemBtn"> Add to Cart </button></td>
                             </tr>
                         @endforeach

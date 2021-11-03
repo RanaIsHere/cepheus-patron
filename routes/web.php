@@ -48,10 +48,12 @@ Route::group(['middleware' => ['auth.basic', 'privilege:EDP']], function () {
     Route::post('/dashboard/suppliers', [DashboardController::class, 'addSupplier']);
     Route::post('/dashboard/patrons', [DashboardController::class, 'addPatrons']);
     Route::post('/dashboard/products', [DashboardController::class, 'addProducts']);
+    Route::post('/dashboard/health/pull', [DashboardController::class, 'pullItem']);
 
     Route::get('/dashboard/patrons', [DashboardController::class, 'defaultPatrons']);
     Route::get('/dashboard/suppliers', [DashboardController::class, 'defaultSuppliers']);
     Route::get('/dashboard/products', [DashboardController::class, 'defaultProducts']);
+    Route::get('/dashboard/health', [DashboardController::class, 'defaultHealth']);
 });
 
 // General Accesss
@@ -71,6 +73,12 @@ Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR,ADMIN']], funct
     Route::get('/dashboard/reports/stocks/{collection_code}', [ReportController::class, 'defaultStocks']);
 });
 
+// Admin
 Route::group(['middleware' => ['auth.basic', 'privilege:ADMIN']], function () {
     Route::get('/dashboard/reports/profits/{dateSync}', [ReportController::class, 'defaultProfits']);
+
+    // Exports
+    Route::get('/dashboard/reports/exportSellerData', [ReportController::class, 'exportSellerData'])->name('exportSellerData');
+    Route::get('/dashboard/reports/exportSellerDetailsData', [ReportController::class, 'exportSellerDetails'])->name('exportSellerDetails');
+    Route::get('/dashboard/reports/exportPurchasesData', [ReportController::class, 'exportPurchases'])->name('exportPurchases');
 });

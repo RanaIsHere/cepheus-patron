@@ -1,5 +1,4 @@
-function checkIfNotEmpty(tableObject)
-{
+function checkIfNotEmpty(tableObject) {
     if (tableObject.rows().count() > 0) {
         $('#addTransactionBtn').prop('disabled', false)
     } else {
@@ -7,15 +6,12 @@ function checkIfNotEmpty(tableObject)
     }
 }
 
-function setValueOfTransaction(tableObject, id)
-{
+function setValueOfTransaction(tableObject, id) {
     $('#totalItems').val(tableObject.rows().count());
 }
 
-function checkIfSus()
-{
-    if ($('#supplierId').val() == "")
-    {
+function checkIfSus() {
+    if ($('#supplierId').val() == "") {
         $('#supplyAddBtn').prop('disabled', true)
     } else {
         $('#supplyAddBtn').prop('disabled', false)
@@ -28,23 +24,25 @@ $(function () {
     var totalPrice = 0
     var tempPrice = 0
 
-    $('#patronsTable').DataTable( {
+    $('#patronsTable').DataTable({
         responsive: false
     });
-    $('#productsTable').DataTable( {
+    $('#productsTable').DataTable({
         responsive: true
     });
     $('#itemsTable').DataTable({
         responsive: true
     });
     $('#suppliersTable').DataTable({
-        responsive: false
+        responsive: false,
+        "lengthMenu": [[5, 10, 25], [5, 10, 25]]
     });
     $('#usersTable').DataTable({
         responsive: true
     });
     var pickedItemsTable = $('#pickedItemsTable').DataTable({
-        responsive: true
+        responsive: true,
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     });
 
     // $('.chooseProductBtn').click(function (e) {
@@ -52,7 +50,7 @@ $(function () {
     // });
 
     $('#alert_success').delay(5000).fadeOut()
-    
+
     $('#productsTable').on('click', '.chooseProductBtn', function () {
         let em = $(this).closest('tr');
         let id = em.find('td').eq(0).text();
@@ -61,14 +59,15 @@ $(function () {
         $('#productId').val(id);
         $('#pid_name').html(name);
     });
-    
+
     $('#patronsTable').on('click', '.choosePatronBtn', function () {
         let em = $(this).closest('tr');
         let id = em.find('td').eq(0).text();
         let name = em.find('td').eq(2).text();
 
         $('#patronId').val(id);
-        $('#patronName').html(name);
+        $('#patronName').val(name);
+        // $('#patronSelectModal').toggle();
     });
 
     $('#itemsTable').on('click', '.addItemBtn', function () {
@@ -82,7 +81,7 @@ $(function () {
                 id,
                 item_name,
                 item_price,
-                "<input type='text' class='form-control item_quantity' name='item_quantity' id='item_quantity_"+id+"' aria-describedby='basic-addon1' value='1'>",
+                "<input type='text' class='form-control item_quantity' name='item_quantity' id='item_quantity_" + id + "' aria-describedby='basic-addon1' value='1'>",
                 "<button class='btn btn-success removeItemBtn'> Remove </button>"
             ]).draw();
             setValueOfTransaction(pickedItemsTable, id)
@@ -90,8 +89,8 @@ $(function () {
             cartAll.push(id)
 
             // $('#groupOfHiddens').append("<input type='hidden' name='chosen_items[]' id='chosenInput' value='" + id + "'>")
-            $('#groupOfHiddens').append("<input type='hidden' name='chosen_items["+id+"][id]' id='" + id + "' value='" + id + "'>")
-            $('#groupOfHiddens').append("<input type='hidden' name='chosen_items["+id+"][quantity]' id='qty_" + id + "' value='" + $('.item_quantity').val() + "'>")
+            $('#groupOfHiddens').append("<input type='hidden' name='chosen_items[" + id + "][id]' id='" + id + "' value='" + id + "'>")
+            $('#groupOfHiddens').append("<input type='hidden' name='chosen_items[" + id + "][quantity]' id='qty_" + id + "' value='" + $('.item_quantity').val() + "'>")
         }
     });
 
@@ -103,9 +102,9 @@ $(function () {
     pickedItemsTable.on('draw', function () {
         total = pickedItemsTable.column(2).data().sum()
         _total = 0
-        pickedItemsTable.rows().every( function ( rowIdx, tableLoop, rowLoop) {
+        pickedItemsTable.rows().every(function (rowIdx, tableLoop, rowLoop) {
             var data = this.data();
-            var cell = this.cell({row: rowIdx, column: 3}).node()
+            var cell = this.cell({ row: rowIdx, column: 3 }).node()
             var subTotal = data[2] * $('input', cell).val()
 
             // console.log(subTotal)
@@ -124,9 +123,9 @@ $(function () {
 
         for (let i = 0; i < cartAll.length; i++) {
             if (cartAll[i] == id) {
-                $('#'+id+'').remove()
-                $('#qty_'+id+'').remove()
-                
+                $('#' + id + '').remove()
+                $('#qty_' + id + '').remove()
+
                 cartAll.splice(i, 1)
             }
         }
@@ -142,8 +141,8 @@ $(function () {
 
         pickedItemsTable.draw()
         setValueOfTransaction(pickedItemsTable, id)
-        $('#qty_'+id+'').remove()
-        $('#groupOfHiddens').append("<input type='hidden' name='chosen_items["+id+"][quantity]' id='qty_" + id + "' value='" + $('#item_quantity_'+id+'').val() + "'>")
+        $('#qty_' + id + '').remove()
+        $('#groupOfHiddens').append("<input type='hidden' name='chosen_items[" + id + "][quantity]' id='qty_" + id + "' value='" + $('#item_quantity_' + id + '').val() + "'>")
     });
 
     checkIfNotEmpty(pickedItemsTable)
@@ -155,7 +154,7 @@ $(function () {
         let supplier_name = em.find('td').eq(2).text();
 
         $('#supplierId').val(id);
-        $('#supplierName').html(supplier_name);
+        $('#supplierName').val(supplier_name);
         checkIfSus()
     });
 

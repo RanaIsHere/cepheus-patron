@@ -21,6 +21,8 @@ class Items extends Migration
             $table->string('collection_quantity', 10);
             $table->double('item_price');
             $table->integer('item_stock');
+            $table->date('expiration_date');
+            $table->boolean('pull_status')->default(0);
             $table->timestamps();
         });
     }

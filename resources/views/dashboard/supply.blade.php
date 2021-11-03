@@ -35,10 +35,12 @@
                                 <span class="input-group-prepend" id="basic-addon1">
                                     <span class="input-group-text">SUS</span>
                                 </span>
-                                <input type="text" class="form-control" name="supplier_id" placeholder="Supplier ID" id="supplierId" aria-label="Supplier ID" aria-describedby="basic-addon1" readonly>
+                                <input type="hidden" class="form-control" name="supplier_id" placeholder="Supplier ID" id="supplierId" aria-label="Supplier ID" aria-describedby="basic-addon1" readonly>
+
+                                <input type="text" class="form-control" name="supplier_name" placeholder="Supplier ID" id="supplierName" aria-label="Supplier ID" aria-describedby="basic-addon1" disabled>
                             </div>
     
-                            <p class="form-text"> Current Supplier: <span id="supplierName" class="fw-bold"></span> </p> 
+                            {{-- <p class="form-text"> Current Supplier: <span id="supplierName" class="fw-bold"></span> </p>  --}}
                         </div>
 
                         <div class="form-group">
@@ -70,6 +72,13 @@
                         </div>
                     </form>
                 </div>
+
+                <style>
+                    .dataTables_filter{ 
+                        display: flex;
+                        justify-content: flex-end; 
+                    }
+                </style>
 
                 <div class="col-md-8">
                     <table class="table table-striped" id="suppliersTable">
@@ -107,6 +116,7 @@
                                 <th>Item Name</th>
                                 <th>Item Price</th>
                                 <th>Item Stock</th>
+                                <th>Pull Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -120,6 +130,7 @@
                                     <td>{{ $items->item_name }}</td>
                                     <td>{{ $items->item_price }}</td>
                                     <td>{{ $items->item_stock }}</td>
+                                    <td>{{ $items->pull_status }}</td>
                                     <td><button class="btn btn-success resupplyStockBtn"> Resupply </button></td>
                                 </tr>
                             @endforeach
