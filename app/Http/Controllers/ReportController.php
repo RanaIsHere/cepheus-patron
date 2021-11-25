@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\PurchasesReport;
 use App\Exports\SellerDetailsReport;
 use App\Exports\SellerReport;
+use App\Exports\SpecialReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Seller;
@@ -15,6 +16,7 @@ use App\Models\Purchases;
 use App\Models\PaymentDetails;
 use App\Models\Suppliers;
 use App\Models\Products;
+use App\Models\Special;
 use App\Models\User;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
@@ -123,5 +125,10 @@ class ReportController extends Controller
     public function exportPurchases()
     {
         return Excel::download(new PurchasesReport, 'purchases.xlsx');
+    }
+
+    public function exportSpecial()
+    {
+        return Excel::download(new SpecialReport, 'special_data.xlsx');
     }
 }

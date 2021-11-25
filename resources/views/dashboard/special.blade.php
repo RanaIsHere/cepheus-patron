@@ -8,6 +8,8 @@
             <div class="col-md">
                 <div class="text-end">
                     <button type="button" class="btn btn-primary btn-sm mb-5" onclick="javascript:window.print();"><i class="si si-printer"></i> Export/Print </button>
+
+                    <a href="{{ route('exportSpecial') }}" class="btn btn-primary btn-sm mb-5"><i class="si si-printer"></i> Export as XLSX </a>
                 </div>
 
                 <div class="text-end">
