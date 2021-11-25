@@ -19,6 +19,7 @@ use App\Models\PayBuffer;
 use App\Models\Purchases;
 use App\Models\PaymentDetails;
 use App\Models\Special;
+use App\Models\SpecialLogs;
 
 class DashboardController extends Controller
 {
@@ -87,6 +88,11 @@ class DashboardController extends Controller
         $patronData  = Patrons::all();
 
         return view('dashboard.special', ['page' => 'Special', 'specialData' => $specialData, 'itemData' => $itemData, 'patronData' => $patronData]);
+    }
+
+    public function defaultSpecialLog()
+    {
+        return view('dashboard.special_log', ['page' => 'Special Log', 'specialLogs' => SpecialLogs::all()]);
     }
 
     public function requestSpecial(Request $request)

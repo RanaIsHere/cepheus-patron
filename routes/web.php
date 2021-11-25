@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR,ADMIN']], funct
     Route::get('/dashboard/reports/invoices/{id}', [ReportController::class, 'defaultInvoice']);
     Route::get('/dashboard/reports/stocks', [ReportController::class, 'defaultStocksList']);
     Route::get('/dashboard/reports/stocks/{collection_code}', [ReportController::class, 'defaultStocks']);
+    Route::get('/dashboard/speciallogs', [DashboardController::class, 'defaultSpecialLog']);
 
     Route::get('/dashboard/exportSpecial', [ReportController::class, 'exportSpecial'])->name('exportSpecial');
     Route::post('/dashboard/deleteRequest', [DashboardController::class, 'deleteRequest'])->name('deleteRequest');

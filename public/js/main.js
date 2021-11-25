@@ -58,6 +58,10 @@ $(function () {
         responsive: true,
         "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     })
+    $('#loggingTable').DataTable({
+        responsive: true,
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
+    })
 
     var pickedItemsTable = $('#pickedItemsTable').DataTable({
         responsive: true,
