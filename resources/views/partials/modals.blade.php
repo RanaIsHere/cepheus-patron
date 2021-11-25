@@ -459,7 +459,7 @@
                                         <span class="input-group-prepend" id="basic-addon1">
                                             <span class="input-group-text">PID</span>
                                         </span>
-                                        <input type="text" class="form-control" name="item_id" placeholder="Item ID" id="itemIDInput" aria-label="Supplier address" aria-describedby="basic-addon1" readonly>
+                                        <input type="text" class="form-control itemIDInput" name="item_id" placeholder="Item ID" id="itemIDInput" aria-label="Supplier address" aria-describedby="basic-addon1" readonly>
                                     </div>
                                 </div>
             
@@ -513,6 +513,108 @@
 
             <div class="modal-footer">
                 {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
+@if ($page == 'Special')
+<style>
+    .dataTables_filter{ 
+        display: flex;
+        justify-content: flex-end; 
+    }
+</style>
+
+<div class="modal fade" id="editSpecialModal" tabindex="-1" aria-labelledby="editSpecialModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editSpecialModalLabel">Special Request Editor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md">
+                            <form action="/dashboard/editSpecial" method="post">
+                                @csrf
+            
+                                <div class="form-group">
+                                    <label class="form-label">Special ID</label>
+            
+                                    <div class="input-group">
+                                        <span class="input-group-prepend" id="basic-addon1">
+                                            <span class="input-group-text">#</span>
+                                        </span>
+                                        <input type="text" class="form-control" name="special_id" placeholder="Special ID" id="specialIDInput" aria-label="Supplier name" aria-describedby="basic-addon1" readonly>
+                                    </div>
+                                </div>
+            
+                                <div class="form-group">
+                                    <label class="form-label">Item ID</label>
+            
+                                    <div class="input-group">
+                                        <span class="input-group-prepend" id="basic-addon1">
+                                            <span class="input-group-text">PID</span>
+                                        </span>
+                                        <input type="text" class="form-control itemIDInputEdit" name="item_id" placeholder="Item ID" id="itemInput" aria-label="Supplier address" aria-describedby="basic-addon1" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Quantity</label>
+            
+                                    <div class="input-group">
+                                        <span class="input-group-prepend" id="basic-addon1">
+                                            <span class="input-group-text">QTY</span>
+                                        </span>
+                                        <input type="number" class="form-control" name="quantity" placeholder="Quantity" id="quantityInput" aria-label="Supplier city" aria-describedby="basic-addon1" min="1" value="1">
+                                    </div>
+                                </div>
+            
+            
+                                <div class="form-group text-center">
+                                    <button type="submit" class="btn btn-primary"> Edit Request </button>
+                                    <button type="button" class="btn btn-danger" id="deleteRequest"> Delete</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md">
+                            <table class="table table-striped w-100" id="itemEditTable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Item Code</th>
+                                        <th>Product Id</th>
+                                        <th>Item Name</th>
+                                        <th>Item Price</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                
+                                <tbody>
+                                    @foreach ($itemData as $items)
+                                    <tr>
+                                        <td>{{ $items->id }}</td>
+                                        <td>{{ $items->item_code }}</td>
+                                        <td>{{ $items->product_id }}</td>
+                                        <td>{{ $items->item_name }}</td>
+                                        <td>{{ $items->item_price }}</td>
+                                        <td><button class="btn btn-primary editItemSupplyBtn"> Choose </button></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

@@ -289,6 +289,41 @@ class DashboardController extends Controller
         }
     }
 
+    public function editSpecial(Request $request)
+    {
+        $validatedData = $request->validate([
+            'special_id' => ['required'],
+            'item_id' => ['required'],
+            'quantity' => ['required']
+        ]);
+
+        $special = Special::find($validatedData['special_id']);
+
+        $special->item_id = $validatedData['item_id'];
+        $special->item_quantity = $validatedData['quantity'];
+
+        if ($special->updateOrFail()) {
+            return redirect()->back()->with('success', 'Successfully updated the request!');
+        } else {
+            return redirect()->back()->with('failure', 'Failed to update the request!');
+        }
+    }
+
+    public function deleteRequest(Request $request)
+    {
+        if ($request->ajax()) {
+            $validatedData = $request->validate([
+                'special_id' => ['required']
+            ]);
+
+            if (Special::where('id', $validatedData['special_id'])->delete()) {
+                return response()->json(['response' => 'Success!']);
+            } else {
+                return response()->json(['response' => 'Failure!']);
+            }
+        }
+    }
+
     public function deleteUser(Request $request)
     {
         $validatedData = $request->validate([

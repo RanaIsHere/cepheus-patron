@@ -54,6 +54,10 @@ $(function () {
         responsive: true,
         "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     })
+    $('#itemEditTable').DataTable({
+        responsive: true,
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
+    })
 
     var pickedItemsTable = $('#pickedItemsTable').DataTable({
         responsive: true,
@@ -181,6 +185,13 @@ $(function () {
         $('#itemIDInput').val(id);
     });
 
+    $('#itemEditTable').on('click', '.editItemSupplyBtn', function () {
+        let em = $(this).closest('tr');
+        let id = em.find('td').eq(0).text();
+
+        $('#itemInput').val(id);
+    })
+
     $('#patronsTable').on('click', '.choosePatronSupplyBtn', function () {
         let em = $(this).closest('tr');
         let id = em.find('td').eq(0).text();
@@ -211,6 +222,33 @@ $(function () {
 
     $('#stockQuantity').keypress(function (e) {
         e.preventDefault();
+    });
+
+    $('#specialTable').on('click', '.SpecialEditBtn', function (e) {
+        e.preventDefault();
+
+        var em = $(this).closest('tr');
+        var id = em.find('td').eq(0).text();
+        var item_id = em.find('td').eq(1).text();
+        var qty = em.find('td').eq(5).text();
+
+        $('#specialIDInput').val(id);
+        $('#itemInput').val(item_id);
+        $('#quantityInput').val(qty);
+    });
+
+    $('#deleteRequest').on('click', function (e) {
+        var thisForm = $(this).closest('form');
+        var specialInput = thisForm.find('#specialIDInput').val()
+
+        $.ajax({
+            method: 'POST',
+            url: '/dashboard/deleteRequest',
+            data: { special_id: specialInput },
+            success: function () {
+                window.location.reload()
+            }
+        });
     });
 
     $('.statusSwitch').on('click', function (e) {

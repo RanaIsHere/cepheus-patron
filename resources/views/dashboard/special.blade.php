@@ -16,6 +16,7 @@
                     <thead>
                         <tr>
                             <th>#</th>
+                            <td>Item ID</td>
                             <th>Patron Name</th>
                             <th>Item Name</th>
                             <th>Sent At</th>
@@ -30,12 +31,14 @@
                         @foreach ($specialData as $special)
                         <tr>
                             <td>{{ $special->id }}</td>
+                            <td>{{ $special->item_id }}</td>
                             <td>{{ $special->patron->patron_name }}</td>
                             <td>{{ $special->item->item_name }}</td>
                             <td>{{ $special->created_at }}</td>
                             <td>{{ $special->item_quantity }}</td>
                             <td class="form-check form-switch"><input type="checkbox" name="d" role="switch" class="form-check-input statusSwitch" value="{{ $special->status }}" {{ $special->status == 1 ? "checked='1'" : "" }}></td>
-                            <td><button class="btn btn-primary chooseProductBtn"> Edit </button></td>
+                            <td><button class="btn btn-primary SpecialEditBtn" data-bs-toggle="modal"
+                                data-bs-target="#editSpecialModal"> Edit </button></td>
                         </tr>
                         @endforeach
                     </tbody>

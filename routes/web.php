@@ -73,6 +73,8 @@ Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR,ADMIN']], funct
     Route::get('/dashboard/reports/stocks', [ReportController::class, 'defaultStocksList']);
     Route::get('/dashboard/reports/stocks/{collection_code}', [ReportController::class, 'defaultStocks']);
 
+    Route::post('/dashboard/deleteRequest', [DashboardController::class, 'deleteRequest'])->name('deleteRequest');
+    Route::post('/dashboard/editSpecial', [DashboardController::class, 'editSpecial'])->name('editSpecial');
     Route::post('/dashboard/changeStatus', [DashboardController::class, 'changeSpecialStatus'])->name('changeSpecialStatus');
     Route::post('/dashboard/requestSpecial', [DashboardController::class, 'requestSpecial'])->name('requestSpecial');
 });
