@@ -72,6 +72,9 @@ Route::group(['middleware' => ['auth.basic', 'privilege:OPERATOR,ADMIN']], funct
     Route::get('/dashboard/reports/invoices/{id}', [ReportController::class, 'defaultInvoice']);
     Route::get('/dashboard/reports/stocks', [ReportController::class, 'defaultStocksList']);
     Route::get('/dashboard/reports/stocks/{collection_code}', [ReportController::class, 'defaultStocks']);
+
+    Route::post('/dashboard/changeStatus', [DashboardController::class, 'changeSpecialStatus'])->name('changeSpecialStatus');
+    Route::post('/dashboard/requestSpecial', [DashboardController::class, 'requestSpecial'])->name('requestSpecial');
 });
 
 // Admin

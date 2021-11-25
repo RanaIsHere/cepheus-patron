@@ -83,8 +83,32 @@ class DashboardController extends Controller
     public function defaultSpecial()
     {
         $specialData = Special::all();
+        $itemData = Items::where('item_stock', '>', 0)->where('pull_status', 0)->get();
+        $patronData  = Patrons::all();
 
-        return view('dashboard.special', ['page' => 'Special', 'specialData' => $specialData]);
+        return view('dashboard.special', ['page' => 'Special', 'specialData' => $specialData, 'itemData' => $itemData, 'patronData' => $patronData]);
+    }
+
+    public function requestSpecial(Request $request)
+    {
+        $validatedData = $request->validate([
+            'patron_id' => ['required'],
+            'item_id' => ['required'],
+            'quantity' => ['required']
+        ]);
+
+        $special = new Special;
+
+        $special->patron_id = $validatedData['patron_id'];
+        $special->item_id = $validatedData['item_id'];
+        $special->item_quantity = $validatedData['quantity'];
+        $special->status = 0;
+
+        if ($special->saveOrFail()) {
+            return redirect()->back()->with('success', 'Successfully added a new request for a member!');
+        } else {
+            return redirect()->back()->with('failure', 'Failed to add a new request for the member!');
+        }
     }
 
     public function pullItem(Request $request)
@@ -244,6 +268,24 @@ class DashboardController extends Controller
 
         if ($user->save()) {
             return redirect('/dashboard/register')->with('success', 'Registration successful!');
+        }
+    }
+
+    public function changeSpecialStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $validatedData = $request->validate([
+                'special_id' => ['required'],
+                'status_switch' => ['required']
+            ]);
+
+            $special = Special::find($validatedData['special_id']);
+
+            $special->status = $validatedData['status_switch'];
+
+            if ($special->updateOrFail()) {
+                return response()->json(['response' => $special->status]);
+            }
         }
     }
 

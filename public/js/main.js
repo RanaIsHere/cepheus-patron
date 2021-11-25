@@ -19,6 +19,12 @@ function checkIfSus() {
 }
 
 $(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    })
+
     var totalPrice = 0
     var cartAll = []
     var totalPrice = 0
@@ -167,6 +173,21 @@ $(function () {
         checkIfSus()
     });
 
+    // Ujian
+    $('#itemsTable').on('click', '.chooseItemSupplyBtn', function () {
+        let em = $(this).closest('tr');
+        let id = em.find('td').eq(0).text();
+
+        $('#itemIDInput').val(id);
+    });
+
+    $('#patronsTable').on('click', '.choosePatronSupplyBtn', function () {
+        let em = $(this).closest('tr');
+        let id = em.find('td').eq(0).text();
+
+        $('#patronIDInput').val(id);
+    });
+
     $('#itemsTable').on('click', '.resupplyStockBtn', function () {
         let em = $(this).closest('tr');
         let id = em.find('td').eq(0).text();
@@ -191,4 +212,36 @@ $(function () {
     $('#stockQuantity').keypress(function (e) {
         e.preventDefault();
     });
+
+    $('.statusSwitch').on('click', function (e) {
+        var statusSwitch = this
+        var em = $(this).closest('tr');
+        var id = em.find('td').eq(0).text();
+
+        if (statusSwitch.value == '0') {
+            statusSwitch.setAttribute('checked', 1)
+            statusSwitch.value = 1
+
+            $.ajax({
+                method: 'POST',
+                url: '/dashboard/changeStatus',
+                data: { status_switch: statusSwitch.value, special_id: id },
+                success: function (response) {
+                    console.log(response)
+                }
+            });
+        } else {
+            statusSwitch.setAttribute('checked', 0)
+            statusSwitch.value = 0
+
+            $.ajax({
+                method: 'POST',
+                url: '/dashboard/changeStatus',
+                data: { status_switch: statusSwitch.value, special_id: id },
+                success: function (response) {
+                    console.log(response)
+                }
+            });
+        }
+    })
 });

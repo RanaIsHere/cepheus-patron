@@ -6,6 +6,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md">
+                <div class="text-end">
+                    <button type="button" class="btn btn-primary btn-sm mb-5" data-bs-toggle="modal"
+                        data-bs-target="#specialModal">Create Special Request</button>
+                </div>
+    
+
                 <table class="table table-striped" id="specialTable">
                     <thead>
                         <tr>
@@ -20,7 +26,7 @@
                         </tr>
                     </thead>
     
-                    <tbody>
+                    <tbody class="text-center">
                         @foreach ($specialData as $special)
                         <tr>
                             <td>{{ $special->id }}</td>
@@ -28,8 +34,8 @@
                             <td>{{ $special->item->item_name }}</td>
                             <td>{{ $special->created_at }}</td>
                             <td>{{ $special->item_quantity }}</td>
-                            <td><input type="checkbox" name="status_switch" id="statusSwitch" value="{{ $special->status }}"></td>
-                            <td><button class="btn btn-primary chooseProductBtn"> Choose </button></td>
+                            <td class="form-check form-switch"><input type="checkbox" name="d" role="switch" class="form-check-input statusSwitch" value="{{ $special->status }}" {{ $special->status == 1 ? "checked='1'" : "" }}></td>
+                            <td><button class="btn btn-primary chooseProductBtn"> Edit </button></td>
                         </tr>
                         @endforeach
                     </tbody>

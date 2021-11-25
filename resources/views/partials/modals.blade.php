@@ -388,3 +388,133 @@
     </div>
 </div>
 @endif
+
+@if ($page == 'Special')
+<style>
+    .dataTables_filter{ 
+        display: flex;
+        justify-content: flex-end; 
+    }
+</style>
+
+<div class="modal fade" id="specialModal" tabindex="-1" aria-labelledby="specialModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable w-100">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="specialModalLabel">Create Special Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md">
+                            <table class="table table-striped w-100 text-center" id="patronsTable">
+                                <thead>
+                                <tr>
+                                    <th class="d-none">#</th>
+                                    <th>Patron Code</th>
+                                    <th>Patron Name</th>
+                                    <th class="d-none">Patron Address</th>
+                                    <th class="d-none">Patron Phone</th>
+                                    <th class="d-none">Patron Email</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+            
+                                <tbody>
+                                @foreach ($patronData as $p)
+                                    <tr>
+                                        <td class="d-none">{{ $p->id }}</td>
+                                        <td>{{ $p->patron_code }}</td>
+                                        <td>{{ $p->patron_name }}</td>
+                                        <td class="d-none">{{ $p->patron_address }}</td>
+                                        <td class="d-none">{{ $p->patron_phone }}</td>
+                                        <td class="d-none">{{ $p->email }}</td>
+                                        <td> <button class="btn btn-primary choosePatronSupplyBtn"> Choose </button> </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="col-md">
+                            <form action="/dashboard/requestSpecial" method="post">
+                                @csrf
+            
+                                <div class="form-group">
+                                    <label class="form-label">Patron ID</label>
+            
+                                    <div class="input-group">
+                                        <span class="input-group-prepend" id="basic-addon1">
+                                            <span class="input-group-text">#</span>
+                                        </span>
+                                        <input type="text" class="form-control" name="patron_id" placeholder="Patron ID" id="patronIDInput" aria-label="Supplier name" aria-describedby="basic-addon1" readonly>
+                                    </div>
+                                </div>
+            
+                                <div class="form-group">
+                                    <label class="form-label">Item ID</label>
+            
+                                    <div class="input-group">
+                                        <span class="input-group-prepend" id="basic-addon1">
+                                            <span class="input-group-text">PID</span>
+                                        </span>
+                                        <input type="text" class="form-control" name="item_id" placeholder="Item ID" id="itemIDInput" aria-label="Supplier address" aria-describedby="basic-addon1" readonly>
+                                    </div>
+                                </div>
+            
+                                <div class="form-group">
+                                    <label class="form-label">Quantity</label>
+            
+                                    <div class="input-group">
+                                        <span class="input-group-prepend" id="basic-addon1">
+                                            <span class="input-group-text">QTY</span>
+                                        </span>
+                                        <input type="number" class="form-control" name="quantity" placeholder="Quantity" aria-label="Supplier city" aria-describedby="basic-addon1" min="1" value="1">
+                                    </div>
+                                </div>
+            
+                                <div class="form-group text-center">
+                                    <button type="submit" class="btn btn-primary"> Add Supplier</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md">
+                            <table class="table table-striped w-100" id="itemsTable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Item Code</th>
+                                        <th>Product Id</th>
+                                        <th>Item Name</th>
+                                        <th>Item Price</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                
+                                <tbody>
+                                    @foreach ($itemData as $items)
+                                    <tr>
+                                        <td>{{ $items->id }}</td>
+                                        <td>{{ $items->item_code }}</td>
+                                        <td>{{ $items->product_id }}</td>
+                                        <td>{{ $items->item_name }}</td>
+                                        <td>{{ $items->item_price }}</td>
+                                        <td><button class="btn btn-primary chooseItemSupplyBtn"> Choose </button></td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                {{-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+@endif
