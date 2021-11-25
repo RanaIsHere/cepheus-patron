@@ -7,10 +7,13 @@
         <div class="row">
             <div class="col-md">
                 <div class="text-end">
+                    <button type="button" class="btn btn-primary btn-sm mb-5" onclick="javascript:window.print();"><i class="si si-printer"></i> Export/Print </button>
+                </div>
+
+                <div class="text-end">
                     <button type="button" class="btn btn-primary btn-sm mb-5" data-bs-toggle="modal"
                         data-bs-target="#specialModal">Create Special Request</button>
                 </div>
-    
 
                 <table class="table table-striped" id="specialTable">
                     <thead>
