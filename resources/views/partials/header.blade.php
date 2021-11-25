@@ -75,6 +75,9 @@
                 <li class="nav-item">
                   <a href="/dashboard/supply" class="nav-link"><i class="fe fe-home"></i> Supply </a>
                 </li>
+                <li class="nav-item">
+                  <a href="/dashboard/special" class="nav-link"><i class="fe fe-home"></i> Special Supply </a>
+                </li>
                 @endif
 
                 @if (Auth::user()->level == 'OPERATOR' OR Auth::user()->level == 'ADMIN')

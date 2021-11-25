@@ -30,4 +30,9 @@ class Items extends Model
     {
         return $this->hasOne(HealthLogs::class, 'item_id');
     }
+
+    public function special()
+    {
+        return $this->hasMany(Special::class, 'item_id');
+    }
 }

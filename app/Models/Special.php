@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Patrons extends Model
+class Special extends Model
 {
     use HasFactory;
 
     protected $guarded = ['id'];
 
-    public function seller()
+    public function item()
     {
-        return $this->hasMany(Seller::class, 'patron_id');
+        return $this->belongsTo(Items::class, 'item_id');
     }
 
-    public function special()
+    public function patron()
     {
-        return $this->hasMany(Special::class, 'patron_id');
+        return $this->belongsTo(Patrons::class, 'patron_id');
     }
 }

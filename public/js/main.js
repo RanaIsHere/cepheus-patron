@@ -44,6 +44,11 @@ $(function () {
         responsive: true,
         "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
     });
+    $('#specialTable').DataTable({
+        responsive: true,
+        "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]
+    })
+
     var pickedItemsTable = $('#pickedItemsTable').DataTable({
         responsive: true,
         "lengthMenu": [[5, 10, 25, -1], [5, 10, 25, 'All']]

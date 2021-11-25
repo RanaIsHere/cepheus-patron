@@ -18,6 +18,7 @@ use App\Models\SellerDetails;
 use App\Models\PayBuffer;
 use App\Models\Purchases;
 use App\Models\PaymentDetails;
+use App\Models\Special;
 
 class DashboardController extends Controller
 {
@@ -77,6 +78,13 @@ class DashboardController extends Controller
         $itemData = Items::where('expiration_date', now()->toDateTimeString())->orWhere('expiration_date', '>', now()->subDays(14)->toDateTimeString())->get();
 
         return view('dashboard.health', ['page' => 'Health', 'itemData' => $itemData]);
+    }
+
+    public function defaultSpecial()
+    {
+        $specialData = Special::all();
+
+        return view('dashboard.special', ['page' => 'Special', 'specialData' => $specialData]);
     }
 
     public function pullItem(Request $request)
